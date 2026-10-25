@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f3b73">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>嘉兴二手房 · 选房助手</title>
+<style>
+:root{
+  --bg:#f4f5f7; --card:#fff; --line:#e8eaee; --text:#1a1d24; --sub:#7a8194;
+  --brand:#1f3b73; --brand2:#2f5597; --good:#0a8f5b; --warn:#c2410c; --badge:#eef2fa;
+  --radius:14px; --shadow:0 2px 10px rgba(20,30,60,.06);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--text); font-size:15px; line-height:1.45;
+  padding-bottom:76px;
+}
+header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#1f3b73,#2f5597);color:#fff;padding:14px 16px 10px}
+h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
+.sub{font-size:12px;opacity:.82;margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+.sub b{font-weight:600}
+.searchwrap{margin-top:10px;display:flex;gap:8px}
+.search{flex:1;display:flex;align-items:center;background:rgba(255,255,255,.16);border-radius:10px;padding:8px 12px}
+.search input{flex:1;border:0;background:transparent;color:#fff;font-size:14px;outline:none}
+.search input::placeholder{color:rgba(255,255,255,.7)}
+.favbtn{border:0;background:rgba(255,255,255,.16);color:#fff;border-radius:10px;padding:8px 12px;font-size:13px}
+.favbtn.on{background:#fff;color:var(--brand)}
+
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:29;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;color:#3b4252}
+.chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.chip .n{opacity:.7;font-size:11px;margin-left:3px}
+.sorts{display:flex;gap:16px;overflow-x:auto;padding:11px 16px;background:#fff;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);position:sticky;top:49px;z-index:28;scrollbar-width:none}
+.sorts::-webkit-scrollbar{display:none}
+.sorts span{flex:0 0 auto;padding:4px 0}
+.sorts span.active{color:var(--brand);font-weight:600;position:relative}
+.sorts span.active::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:2px;background:var(--brand);border-radius:2px}
+
+.list{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 13px;position:relative}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.name{font-size:15.5px;font-weight:600;color:#12151c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.loc{font-size:12px;color:var(--sub);margin-top:2px}
+.price{text-align:right;flex:0 0 auto}
+.price .p{font-size:19px;font-weight:700;color:var(--warn);line-height:1.1}
+.price .p small{font-size:12px;font-weight:500;margin-left:1px}
+.price .u{font-size:11.5px;color:var(--sub);margin-top:2px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.tag{background:var(--badge);color:#3c4a63;border-radius:6px;padding:3px 8px;font-size:12px}
+.tag.g{background:#e8f6ef;color:var(--good)}
+.tag.w{background:#fdf1e7;color:#b45309}
+.tag.r{background:#fdeaea;color:#b91c1c}
+.row2{display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding-right:44px;font-size:12px;color:var(--sub)}
+.dev{font-weight:600}
+.dev.down{color:var(--good)}
+.dev.up{color:#b91c1c}
+.dev.flat{color:var(--sub)}
+.star{position:absolute;right:2px;bottom:2px;width:44px;height:44px;font-size:20px;color:#c9ced9;background:none;border:0;padding:0;display:flex;align-items:center;justify-content:center}
+.star.on{color:#f0a020}
+.more{text-align:center;color:var(--sub);font-size:13px;padding:16px}
+.empty{text-align:center;color:var(--sub);padding:50px 20px;font-size:14px}
+
+.sheet-mask,.modal-mask{position:fixed;inset:0;background:rgba(10,15,30,.45);z-index:50;display:none}
+.sheet-mask.show,.modal-mask.show{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;z-index:51;max-height:82vh;overflow:auto;transform:translateY(100%);transition:transform .22s ease;padding-bottom:env(safe-area-inset-bottom)}
+.sheet.show{transform:translateY(0)}
+.sheet h3{margin:0;padding:16px 16px 6px;font-size:15px}
+.grp{padding:6px 16px 10px}
+.grp .t{font-size:12.5px;color:var(--sub);margin:8px 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:13px;color:#3b4252;background:#fbfcfe}
+.opt.on{border-color:var(--brand);background:#eef2fa;color:var(--brand);font-weight:600}
+.range{display:flex;align-items:center;gap:8px}
+.range input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;outline:none}
+.sheet-foot{position:sticky;bottom:0;background:#fff;padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
+.btn{flex:1;border:0;border-radius:10px;padding:12px;font-size:15px;font-weight:600}
+.btn.ghost{background:#f0f2f6;color:#454c5c}
+.btn.main{background:var(--brand);color:#fff}
+
+.modal{position:fixed;left:0;right:0;bottom:0;max-height:88vh;background:#fff;border-radius:18px 18px 0 0;z-index:51;overflow:auto;transform:translateY(100%);transition:transform .22s ease}
+.modal.show{transform:translateY(0)}
+.mhead{position:sticky;top:0;background:#fff;padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.mhead .close{border:0;background:#f0f2f6;border-radius:50%;width:30px;height:30px;font-size:16px;color:#555}
+.mbody{padding:14px 16px 90px}
+.big{font-size:13px;color:var(--sub);margin-bottom:6px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin-top:12px}
+.gi .k{font-size:12px;color:var(--sub)}
+.gi .v{font-size:14px;margin-top:2px;word-break:break-all}
+.mfoot{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:52}
+.mfoot a{flex:1;text-align:center;text-decoration:none;background:var(--brand);color:#fff;border-radius:10px;padding:12px;font-size:15px;font-weight:600}
+.desc{font-size:13.5px;color:#3b4252;background:#f7f8fa;border-radius:10px;padding:10px 12px;margin-top:12px}
+.bottom-bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(20,30,60,.06)}
+.bottom-bar .cnt{flex:1;font-size:13px;color:var(--sub)}
+.bottom-bar .cnt b{color:var(--text);font-size:15px}
+.bottom-bar button{border:0;background:var(--brand);color:#fff;border-radius:10px;padding:12px 22px;font-size:14px;font-weight:600}
+.sheet-head{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px;border-bottom:1px solid var(--line);z-index:2}
+.sheet-head h3{margin:0;padding:0}
+.sheet-head button{border:0;background:#f0f2f6;border-radius:50%;width:30px;height:30px;font-size:15px;color:#555}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>嘉兴二手房 · 选房助手</h1>
+  <div class="sub">
+    <span>库内 <b id="total">--</b> 套房源</span>
+    <span>40万内 <b id="budget">--</b> 套</span>
+    <span>更新 <b id="upt">--</b></span>
+  </div>
+  <div class="searchwrap">
+    <div class="search">
+      <input id="q" type="search" placeholder="搜小区 / 板块 / 关键词">
+    </div>
+    <button class="favbtn" id="favBtn">★ 收藏</button>
+  </div>
+</header>
+
+<div class="chips" id="distChips"></div>
+<div class="sorts" id="sorts">
+  <span data-sort="price_asc" class="active">总价↑</span>
+  <span data-sort="price_desc">总价↓</span>
+  <span data-sort="unit_asc">单价↑</span>
+  <span data-sort="deviation">低于小区均价</span>
+  <span data-sort="area_desc">面积↓</span>
+  <span data-sort="newest">最新挂牌</span>
+</div>
+
+<div class="list" id="list"></div>
+<div class="more" id="more"></div>
+
+<div class="sheet-mask" id="mask"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-head"><h3>筛选</h3><button id="sheetClose">✕</button></div>
+  <div class="grp">
+    <div class="t">总价（万）</div>
+    <div class="range">
+      <input id="pmin" type="number" inputmode="decimal" placeholder="最低">
+      <span style="color:#9aa1b0">—</span>
+      <input id="pmax" type="number" inputmode="decimal" placeholder="最高">
+    </div>
+    <div class="opts" style="margin-top:8px">
+      <div class="opt" data-p="0|40">40万内</div>
+      <div class="opt" data-p="0|60">60万内</div>
+      <div class="opt" data-p="60|100">60-100万</div>
+      <div class="opt" data-p="100|9999">100万以上</div>
+    </div>
+  </div>
+  <div class="grp">
+    <div class="t">建筑面积（㎡）</div>
+    <div class="range">
+      <input id="amin" type="number" inputmode="decimal" placeholder="最低">
+      <span style="color:#9aa1b0">—</span>
+      <input id="amax" type="number" inputmode="decimal" placeholder="最高">
+    </div>
+    <div class="opts" style="margin-top:8px">
+      <div class="opt" data-a="0|50">50㎡以下</div>
+      <div class="opt" data-a="50|70">50-70㎡</div>
+      <div class="opt" data-a="70|90">70-90㎡</div>
+      <div class="opt" data-a="90|999">90㎡以上</div>
+    </div>
+  </div>
+  <div class="grp">
+    <div class="t">户型</div>
+    <div class="opts" id="roomOpts">
+      <div class="opt" data-room="1">一居</div>
+      <div class="opt" data-room="2">两居</div>
+      <div class="opt" data-room="3">三居</div>
+      <div class="opt" data-room="4">四居</div>
+      <div class="opt" data-room="5">五居及以上</div>
+    </div>
+  </div>
+  <div class="grp">
+    <div class="t">电梯</div>
+    <div class="opts" id="elevOpts">
+      <div class="opt" data-elev="1">有电梯</div>
+      <div class="opt" data-elev="0">无电梯</div>
+    </div>
+  </div>
+  <div class="grp">
+    <div class="t">装修</div>
+    <div class="opts" id="decoOpts"></div>
+  </div>
+  <div class="sheet-foot">
+    <button class="btn ghost" id="reset">重置</button>
+    <button class="btn main" id="apply">查看结果</button>
+  </div>
+</div>
+
+<div class="modal-mask" id="mMask"></div>
+<div class="modal" id="modal">
+  <div class="mhead">
+    <div><div class="name" id="mName" style="font-size:16px"></div><div class="loc" id="mLoc"></div></div>
+    <button class="close" id="mClose">✕</button>
+  </div>
+  <div class="mbody">
+    <div class="desc" id="mPrice"></div>
+    <div class="grid" id="mGrid"></div>
+    <div class="desc" id="mComm"></div>
+  </div>
+  <div class="mfoot">
+    <a id="mLink" href="#" target="_blank" rel="noopener">查看原始房源</a>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="cnt" id="cnt">共 -- 套</div>
+  <button id="openFilter">筛选</button>
+</div>
+
+<script>
+const S = {
+  q:"", districts:[], pmin:"", pmax:"", amin:"", amax:"",
+  rooms:[], elevator:"", deco:[], sort:"price_asc", page:0, size:30,
+  total:0, loading:false, done:false, onlyFav:false
+};
+const FAV = new Set(JSON.parse(localStorage.getItem("jx_fav")||"[]"));
+const $ = id => document.getElementById(id);
+const fmt = (n,d=0) => (n===null||n===undefined||n==="")?"--":Number(n).toFixed(d).replace(/\.0+$/,"");
+
+function saveFav(){ localStorage.setItem("jx_fav", JSON.stringify([...FAV])); }
+
+async function loadMeta(){
+  const r = await fetch("/api/meta").then(x=>x.json());
+  $("total").textContent = r.total.toLocaleString();
+  $("budget").textContent = r.budget.toLocaleString();
+  $("upt").textContent = (r.crawl_time||"").slice(5,16);
+  const box = $("distChips");
+  const ds = r.districts.filter(d => d.count >= 10);
+  box.innerHTML = `<div class="chip active" data-d="">全部<span class="n">${r.total}</span></div>` +
+    ds.map(d=>`<div class="chip" data-d="${d.name}">${d.name}<span class="n">${d.count}</span></div>`).join("");
+  box.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+    box.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+    c.classList.add("active");
+    S.districts = c.dataset.d ? [c.dataset.d] : [];
+    reload();
+  });
+  const deco = $("decoOpts");
+  deco.innerHTML = r.decorations.map(d=>`<div class="opt" data-deco="${d.name}">${d.name}</div>`).join("");
+  deco.querySelectorAll(".opt").forEach(o=>o.onclick=()=>o.classList.toggle("on"));
+}
+
+function qs(){
+  const p = new URLSearchParams();
+  if(S.q) p.set("q", S.q);
+  if(S.districts.length) p.set("district", S.districts.join(","));
+  ["pmin","pmax","amin","amax"].forEach(k=>{ if(S[k]!=="") p.set(k,S[k]); });
+  if(S.rooms.length) p.set("rooms", S.rooms.join(","));
+  if(S.elevator!=="") p.set("elevator", S.elevator);
+  if(S.deco.length) p.set("decoration", S.deco.join(","));
+  if(S.onlyFav){ p.set("only_fav","1"); p.set("ids",[...FAV].join(",")); }
+  p.set("sort", S.sort); p.set("page", S.page); p.set("size", S.size);
+  return p.toString();
+}
+
+function card(it){
+  const fav = FAV.has(it.house_id) ? "on" : "";
+  let dev = "";
+  if(it.deviation !== null && it.deviation !== undefined && it.med_unit){
+    const pct = (it.deviation*100).toFixed(1);
+    if(Math.abs(it.deviation) < 0.001){
+      dev = `<span class="dev flat">与小区均价持平</span>`;
+    } else {
+      const cls = it.deviation < 0 ? "down" : "up";
+      dev = `<span class="dev ${cls}">${it.deviation<0?"低":"高"}于小区均价 ${Math.abs(pct)}%</span>`;
+    }
+  }
+  const tags = [
+    it.area ? `<span class="tag">${fmt(it.area,1)}㎡</span>` : "",
+    it.layout ? `<span class="tag">${it.layout}</span>` : "",
+    it.orientation ? `<span class="tag">${it.orientation}</span>` : "",
+    it.floor_desc ? `<span class="tag">${it.floor_desc}${it.total_floor?"/"+it.total_floor+"层":""}</span>` : "",
+    it.elevator ? `<span class="tag ${it.elevator==="有"?"g":"w"}">${it.elevator}电梯</span>` : "",
+    it.decoration ? `<span class="tag">${it.decoration}</span>` : "",
+  ].join("");
+  return `<div class="card" data-id="${it.house_id}">
+    <div class="top">
+      <div style="min-width:0">
+        <div class="name">${it.community||"未知小区"}</div>
+        <div class="loc">${it.district||""}${it.block?" · "+it.block:""}</div>
+      </div>
+      <div class="price">
+        <div class="p">${fmt(it.total_price,0)}<small>万</small></div>
+        <div class="u">${it.unit_price?fmt(it.unit_price,0)+" 元/㎡":""}</div>
+      </div>
+    </div>
+    <div class="meta">${tags}</div>
+    <div class="row2"><span>${dev}</span><span>${it.list_date?it.list_date+" 挂牌":""}</span></div>
+    <button class="star ${fav}" data-fav="${it.house_id}">★</button>
+  </div>`;
+}
+
+async function load(){
+  if(S.loading || S.done) return;
+  S.loading = true;
+  $("more").textContent = "加载中…";
+  const r = await fetch("/api/items?"+qs()).then(x=>x.json());
+  S.total = r.total;
+  $("cnt").innerHTML = `共 <b>${r.total.toLocaleString()}</b> 套${S.onlyFav?"（收藏）":""}`;
+  if(S.page===0){
+    const empty = S.onlyFav
+      ? `<div class="empty">还没有收藏<br>点卡片右下角 ★ 收藏心仪房源</div>`
+      : `<div class="empty">没有符合条件的房源<br>试试放宽价格或面积</div>`;
+    $("list").innerHTML = r.items.length? r.items.map(card).join("") : empty;
+  } else {
+    $("list").insertAdjacentHTML("beforeend", r.items.map(card).join(""));
+  }
+  bindCards();
+  S.loading = false;
+  if((S.page+1)*S.size >= r.total){ S.done = true; $("more").textContent = r.total? `已全部加载（${r.total} 套）` : ""; }
+  else $("more").textContent = "上滑加载更多";
+  S.page++;
+}
+
+function bindCards(){
+  document.querySelectorAll(".card").forEach(c=>{
+    c.onclick = e=>{
+      if(e.target.dataset.fav) return;
+      openDetail(c.dataset.id);
+    };
+  });
+  document.querySelectorAll("[data-fav]").forEach(b=>{
+    b.onclick = e=>{
+      e.stopPropagation();
+      const id = b.dataset.fav;
+      if(FAV.has(id)){ FAV.delete(id); b.classList.remove("on"); }
+      else { FAV.add(id); b.classList.add("on"); }
+      saveFav();
+      if(S.onlyFav) reload();
+    };
+  });
+}
+
+function reload(){ S.page=0; S.done=false; $("list").innerHTML=""; load(); }
+
+let CACHE = {};
+async function openDetail(id){
+  let it = CACHE[id];
+  if(!it){
+    const r = await fetch("/api/items?size=1&page=0&ids="+id+"&only_fav=1").then(x=>x.json());
+    it = r.items[0];
+  }
+  if(!it) return;
+  $("mName").textContent = it.community||"未知小区";
+  $("mLoc").textContent = `${it.district||""}${it.block?" · "+it.block:""}`;
+  $("mPrice").innerHTML = `<b style="font-size:22px;color:#c2410c">${fmt(it.total_price,0)} 万</b>
+     <span style="color:#7a8194;margin-left:8px">${it.unit_price?fmt(it.unit_price,0)+" 元/㎡":""}</span>
+     ${it.med_unit?`<div style="margin-top:6px;font-size:12.5px;color:#7a8194">小区中位单价 ${fmt(it.med_unit,0)} 元/㎡　同小区在售 ${it.n||"-"} 套</div>`:""}`;
+  const rows = [
+    ["户型", it.layout], ["建筑面积", it.area?fmt(it.area,2)+" ㎡":""],
+    ["朝向", it.orientation], ["楼层", it.floor_desc?(it.floor_desc+(it.total_floor?"（共"+it.total_floor+"层）":"")):""],
+    ["装修", it.decoration], ["电梯", it.elevator], ["梯户比", it.elevator_ratio],
+    ["建成年代", it.build_year], ["房屋用途", it.purpose], ["建筑结构", it.structure],
+    ["供暖", it.heating], ["抵押", it.mortgage], ["挂牌时间", it.list_date], ["上次交易", it.last_trade],
+  ];
+  $("mGrid").innerHTML = rows.filter(r=>r[1]).map(r=>`<div class="gi"><div class="k">${r[0]}</div><div class="v">${r[1]}</div></div>`).join("");
+  $("mComm").textContent = "标题：" + (it.title || "—");
+  $("mLink").href = it.url || "#";
+  $("modal").classList.add("show"); $("mMask").classList.add("show");
+}
+
+function closeAll(){
+  $("sheet").classList.remove("show"); $("mask").classList.remove("show");
+  $("modal").classList.remove("show"); $("mMask").classList.remove("show");
+}
+
+$("favBtn").onclick = ()=>{
+  S.onlyFav = !S.onlyFav;
+  $("favBtn").classList.toggle("on", S.onlyFav);
+  $("favBtn").textContent = S.onlyFav ? "★ 收藏中" : "★ 收藏";
+  reload();
+};
+document.querySelectorAll("#sorts span").forEach(s=>s.onclick=()=>{
+  document.querySelectorAll("#sorts span").forEach(x=>x.classList.remove("active"));
+  s.classList.add("active"); S.sort = s.dataset.sort; reload();
+});
+let timer;
+$("q").oninput = e=>{
+  clearTimeout(timer);
+  timer = setTimeout(()=>{ S.q = e.target.value.trim(); reload(); }, 350);
+};
+$("mask").onclick = closeAll;
+$("mMask").onclick = closeAll;
+$("mClose").onclick = closeAll;
+
+document.querySelectorAll("[data-p]").forEach(o=>o.onclick=()=>{
+  const was = o.classList.contains("on");
+  document.querySelectorAll("[data-p]").forEach(x=>x.classList.remove("on"));
+  if(was){ $("pmin").value=""; $("pmax").value=""; return; }
+  const [a,b]=o.dataset.p.split("|"); $("pmin").value=a==="0"?"":a; $("pmax").value=b==="9999"?"":b;
+  o.classList.add("on");
+});
+document.querySelectorAll("[data-a]").forEach(o=>o.onclick=()=>{
+  const was = o.classList.contains("on");
+  document.querySelectorAll("[data-a]").forEach(x=>x.classList.remove("on"));
+  if(was){ $("amin").value=""; $("amax").value=""; return; }
+  const [a,b]=o.dataset.a.split("|"); $("amin").value=a==="0"?"":a; $("amax").value=b==="999"?"":b;
+  o.classList.add("on");
+});
+["pmin","pmax"].forEach(k=>$(k).addEventListener("input",()=>document.querySelectorAll("[data-p]").forEach(x=>x.classList.remove("on"))));
+["amin","amax"].forEach(k=>$(k).addEventListener("input",()=>document.querySelectorAll("[data-a]").forEach(x=>x.classList.remove("on"))));
+$("roomOpts").querySelectorAll(".opt").forEach(o=>o.onclick=()=>o.classList.toggle("on"));
+$("elevOpts").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
+  const on = !o.classList.contains("on");
+  $("elevOpts").querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));
+  if(on) o.classList.add("on");
+});
+$("reset").onclick = ()=>{
+  ["pmin","pmax","amin","amax"].forEach(k=>$(k).value="");
+  document.querySelectorAll(".opt.on").forEach(o=>o.classList.remove("on"));
+};
+$("apply").onclick = ()=>{
+  S.pmin=$("pmin").value; S.pmax=$("pmax").value; S.amin=$("amin").value; S.amax=$("amax").value;
+  S.rooms=[...$("roomOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.room);
+  const el=[...$("elevOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.elev);
+  S.elevator = el.length? el[0] : "";
+  S.deco=[...$("decoOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.deco);
+  closeAll(); reload();
+};
+
+$("openFilter").onclick = ()=>{ $("sheet").scrollTop = 0; $("sheet").classList.add("show"); $("mask").classList.add("show"); };
+$("sheetClose").onclick = closeAll;
+
+window.addEventListener("scroll", ()=>{
+  if(document.body.scrollHeight - window.scrollY - window.innerHeight < 400) load();
+});
+
+loadMeta(); load();
+</script>
+</body>
+</html>

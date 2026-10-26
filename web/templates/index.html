@@ -3,48 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f3b73">
+<meta name="theme-color" content="#123a5c">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>嘉兴二手房 · 选房助手</title>
+<title>环沪 40 万内二手房 · 选房助手</title>
 <style>
 :root{
-  --bg:#f4f5f7; --card:#fff; --line:#e8eaee; --text:#1a1d24; --sub:#7a8194;
-  --brand:#1f3b73; --brand2:#2f5597; --good:#0a8f5b; --warn:#c2410c; --badge:#eef2fa;
-  --radius:14px; --shadow:0 2px 10px rgba(20,30,60,.06);
+  --bg:#f2f5f8; --card:#fff; --line:#e6eaf0; --text:#16202b; --sub:#77839a;
+  --brand:#123a5c; --brand2:#1d5c86; --good:#0a8f5b; --warn:#c2410c; --badge:#eef3f8;
+  --radius:14px; --shadow:0 2px 12px rgba(16,36,60,.07);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  background:var(--bg); color:var(--text); font-size:15px; line-height:1.45;
-  padding-bottom:76px;
-}
-header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#1f3b73,#2f5597);color:#fff;padding:14px 16px 10px}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:76px}
+header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#123a5c,#1d5c86);color:#fff;padding:14px 16px 10px}
 h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
-.sub{font-size:12px;opacity:.82;margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+.sub{font-size:12px;opacity:.86;margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
 .sub b{font-weight:600}
 .searchwrap{margin-top:10px;display:flex;gap:8px}
 .search{flex:1;display:flex;align-items:center;background:rgba(255,255,255,.16);border-radius:10px;padding:8px 12px}
 .search input{flex:1;border:0;background:transparent;color:#fff;font-size:14px;outline:none}
-.search input::placeholder{color:rgba(255,255,255,.7)}
-.favbtn{border:0;background:rgba(255,255,255,.16);color:#fff;border-radius:10px;padding:8px 12px;font-size:13px}
-.favbtn.on{background:#fff;color:var(--brand)}
-
+.search input::placeholder{color:rgba(255,255,255,.72)}
+.hbtn{border:0;background:rgba(255,255,255,.16);color:#fff;border-radius:10px;padding:8px 11px;font-size:13px}
+.hbtn.on{background:#fff;color:var(--brand)}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:29;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;color:#3b4252}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:13px;color:#3b4252}
 .chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
-.chip .n{opacity:.7;font-size:11px;margin-left:3px}
+.chip .n{opacity:.72;font-size:11px;margin-left:3px}
 .sorts{display:flex;gap:16px;overflow-x:auto;padding:11px 16px;background:#fff;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);position:sticky;top:49px;z-index:28;scrollbar-width:none}
 .sorts::-webkit-scrollbar{display:none}
 .sorts span{flex:0 0 auto;padding:4px 0}
 .sorts span.active{color:var(--brand);font-weight:600;position:relative}
 .sorts span.active::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:2px;background:var(--brand);border-radius:2px}
-
+.notice{margin:10px 12px 0;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:10px;padding:9px 12px;font-size:12.5px;display:none}
 .list{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
 .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 13px;position:relative}
 .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.name{font-size:15.5px;font-weight:600;color:#12151c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.name{font-size:15.5px;font-weight:600;color:#12151c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:62vw}
 .loc{font-size:12px;color:var(--sub);margin-top:2px}
 .price{text-align:right;flex:0 0 auto}
 .price .p{font-size:19px;font-weight:700;color:var(--warn);line-height:1.1}
@@ -55,7 +51,8 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
 .tag.g{background:#e8f6ef;color:var(--good)}
 .tag.w{background:#fdf1e7;color:#b45309}
 .tag.r{background:#fdeaea;color:#b91c1c}
-.row2{display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding-right:44px;font-size:12px;color:var(--sub)}
+.tag.b{background:#e8f0fb;color:#1d4ed8}
+.row2{display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding-right:44px;font-size:12px;color:var(--sub);gap:8px}
 .dev{font-weight:600}
 .dev.down{color:var(--good)}
 .dev.up{color:#b91c1c}
@@ -63,29 +60,28 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
 .star{position:absolute;right:2px;bottom:2px;width:44px;height:44px;font-size:20px;color:#c9ced9;background:none;border:0;padding:0;display:flex;align-items:center;justify-content:center}
 .star.on{color:#f0a020}
 .more{text-align:center;color:var(--sub);font-size:13px;padding:16px}
-.empty{text-align:center;color:var(--sub);padding:50px 20px;font-size:14px}
-
+.empty{text-align:center;color:var(--sub);padding:50px 20px;font-size:14px;line-height:1.8}
 .sheet-mask,.modal-mask{position:fixed;inset:0;background:rgba(10,15,30,.45);z-index:50;display:none}
 .sheet-mask.show,.modal-mask.show{display:block}
-.sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;z-index:51;max-height:82vh;overflow:auto;transform:translateY(100%);transition:transform .22s ease;padding-bottom:env(safe-area-inset-bottom)}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;z-index:51;max-height:86vh;overflow:auto;transform:translateY(100%);transition:transform .22s ease;padding-bottom:env(safe-area-inset-bottom)}
 .sheet.show{transform:translateY(0)}
-.sheet h3{margin:0;padding:16px 16px 6px;font-size:15px}
+.sheet-head,.mhead{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px;border-bottom:1px solid var(--line);z-index:2}
+.sheet-head h3,.mhead .ttl{margin:0;font-size:15px;font-weight:600}
+.sheet-head button,.mhead .close{border:0;background:#f0f2f6;border-radius:50%;width:30px;height:30px;font-size:15px;color:#555}
 .grp{padding:6px 16px 10px}
-.grp .t{font-size:12.5px;color:var(--sub);margin:8px 0 8px}
+.grp .t{font-size:12.5px;color:var(--sub);margin:10px 0 8px;display:flex;justify-content:space-between}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 .opt{border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:13px;color:#3b4252;background:#fbfcfe}
-.opt.on{border-color:var(--brand);background:#eef2fa;color:var(--brand);font-weight:600}
+.opt.on{border-color:var(--brand);background:#eef3f8;color:var(--brand);font-weight:600}
 .range{display:flex;align-items:center;gap:8px}
 .range input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;outline:none}
 .sheet-foot{position:sticky;bottom:0;background:#fff;padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
 .btn{flex:1;border:0;border-radius:10px;padding:12px;font-size:15px;font-weight:600}
 .btn.ghost{background:#f0f2f6;color:#454c5c}
 .btn.main{background:var(--brand);color:#fff}
-
-.modal{position:fixed;left:0;right:0;bottom:0;max-height:88vh;background:#fff;border-radius:18px 18px 0 0;z-index:51;overflow:auto;transform:translateY(100%);transition:transform .22s ease}
+.btn.warn{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
+.modal{position:fixed;left:0;right:0;bottom:0;max-height:90vh;background:#fff;border-radius:18px 18px 0 0;z-index:51;overflow:auto;transform:translateY(100%);transition:transform .22s ease}
 .modal.show{transform:translateY(0)}
-.mhead{position:sticky;top:0;background:#fff;padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-.mhead .close{border:0;background:#f0f2f6;border-radius:50%;width:30px;height:30px;font-size:16px;color:#555}
 .mbody{padding:14px 16px 90px}
 .big{font-size:13px;color:var(--sub);margin-bottom:6px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin-top:12px}
@@ -93,43 +89,61 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
 .gi .v{font-size:14px;margin-top:2px;word-break:break-all}
 .mfoot{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:52}
 .mfoot a{flex:1;text-align:center;text-decoration:none;background:var(--brand);color:#fff;border-radius:10px;padding:12px;font-size:15px;font-weight:600}
-.desc{font-size:13.5px;color:#3b4252;background:#f7f8fa;border-radius:10px;padding:10px 12px;margin-top:12px}
-.bottom-bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(20,30,60,.06)}
+.desc{font-size:13.5px;color:#3b4252;background:#f7f8fa;border-radius:10px;padding:10px 12px;margin-top:12px;word-break:break-all}
+.riskbox{font-size:13px;border-radius:10px;padding:10px 12px;margin-top:12px}
+.riskbox.bad{background:#fdeaea;color:#991b1b}
+.riskbox.mid{background:#fff7ed;color:#9a3412}
+.riskbox.ok{background:#e8f6ef;color:#065f46}
+.bottom-bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(20,30,60,.06)}
 .bottom-bar .cnt{flex:1;font-size:13px;color:var(--sub)}
 .bottom-bar .cnt b{color:var(--text);font-size:15px}
-.bottom-bar button{border:0;background:var(--brand);color:#fff;border-radius:10px;padding:12px 22px;font-size:14px;font-weight:600}
-.sheet-head{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 16px 8px;border-bottom:1px solid var(--line);z-index:2}
-.sheet-head h3{margin:0;padding:0}
-.sheet-head button{border:0;background:#f0f2f6;border-radius:50%;width:30px;height:30px;font-size:15px;color:#555}
+.bottom-bar button{border:0;background:var(--brand);color:#fff;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600}
+.bottom-bar button.alt{background:#eef3f8;color:var(--brand)}
+.an-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 12px}
+.an-card{background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
+.an-card .n{font-size:20px;font-weight:700;color:var(--brand)}
+.an-card .k{font-size:11.5px;color:var(--sub);margin-top:2px}
+.an-sec{margin-top:16px}
+.an-sec h4{font-size:14px;margin:0 0 8px;color:#16202b}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:12.5px}
+.bar .lab{flex:0 0 92px;color:#3b4252;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .track{flex:1;background:#eef1f5;height:10px;border-radius:99px;overflow:hidden}
+.bar .fill{height:100%;background:linear-gradient(90deg,#1d5c86,#3b82b8);border-radius:99px}
+.bar .val{flex:0 0 42px;text-align:right;color:var(--sub)}
+.exlist{margin:8px 0 0;padding:0;list-style:none}
+.exlist li{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line);color:#3b4252}
+.exlist li b{color:var(--warn)}
+.rules{font-size:12.5px;color:var(--sub);line-height:1.75;padding-left:16px}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>嘉兴二手房 · 选房助手</h1>
+  <h1>环沪 40 万内二手房 · 选房助手</h1>
   <div class="sub">
-    <span>库内 <b id="total">--</b> 套房源</span>
-    <span>40万内 <b id="budget">--</b> 套</span>
+    <span>精选 <b id="clean">--</b> 套</span>
+    <span>40万内原始 <b id="total">--</b> 套</span>
     <span>更新 <b id="upt">--</b></span>
   </div>
   <div class="searchwrap">
-    <div class="search">
-      <input id="q" type="search" placeholder="搜小区 / 板块 / 关键词">
-    </div>
-    <button class="favbtn" id="favBtn">★ 收藏</button>
+    <div class="search"><input id="q" type="search" placeholder="搜小区 / 区县 / 板块"></div>
+    <button class="hbtn" id="analysisBtn">分析</button>
+    <button class="hbtn" id="favBtn">★</button>
   </div>
 </header>
 
-<div class="chips" id="distChips"></div>
+<div class="chips" id="cityChips"></div>
 <div class="sorts" id="sorts">
-  <span data-sort="price_asc" class="active">总价↑</span>
-  <span data-sort="price_desc">总价↓</span>
+  <span data-sort="recommend" class="active">推荐</span>
+  <span data-sort="price_asc">总价↑</span>
   <span data-sort="unit_asc">单价↑</span>
   <span data-sort="deviation">低于小区均价</span>
-  <span data-sort="area_desc">面积↓</span>
   <span data-sort="newest">最新挂牌</span>
+  <span data-sort="area_desc">面积↓</span>
+  <span data-sort="trust">可信度</span>
 </div>
 
+<div class="notice" id="notice"></div>
 <div class="list" id="list"></div>
 <div class="more" id="more"></div>
 
@@ -137,17 +151,19 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
 <div class="sheet" id="sheet">
   <div class="sheet-head"><h3>筛选</h3><button id="sheetClose">✕</button></div>
   <div class="grp">
-    <div class="t">总价（万）</div>
+    <div class="t"><span>总价（万）</span><span style="color:#9aa1b0">仅看 40 万内</span></div>
     <div class="range">
       <input id="pmin" type="number" inputmode="decimal" placeholder="最低">
       <span style="color:#9aa1b0">—</span>
-      <input id="pmax" type="number" inputmode="decimal" placeholder="最高">
+      <input id="pmax" type="number" inputmode="decimal" placeholder="最高 40">
     </div>
     <div class="opts" style="margin-top:8px">
-      <div class="opt" data-p="0|40">40万内</div>
-      <div class="opt" data-p="0|60">60万内</div>
-      <div class="opt" data-p="60|100">60-100万</div>
-      <div class="opt" data-p="100|9999">100万以上</div>
+      <div class="opt" data-p="0|15">15万内</div>
+      <div class="opt" data-p="15|20">15-20万</div>
+      <div class="opt" data-p="20|25">20-25万</div>
+      <div class="opt" data-p="25|30">25-30万</div>
+      <div class="opt" data-p="30|35">30-35万</div>
+      <div class="opt" data-p="35|40">35-40万</div>
     </div>
   </div>
   <div class="grp">
@@ -158,7 +174,8 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
       <input id="amax" type="number" inputmode="decimal" placeholder="最高">
     </div>
     <div class="opts" style="margin-top:8px">
-      <div class="opt" data-a="0|50">50㎡以下</div>
+      <div class="opt" data-a="0|30">30㎡以下</div>
+      <div class="opt" data-a="30|50">30-50㎡</div>
       <div class="opt" data-a="50|70">50-70㎡</div>
       <div class="opt" data-a="70|90">70-90㎡</div>
       <div class="opt" data-a="90|999">90㎡以上</div>
@@ -175,15 +192,31 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
     </div>
   </div>
   <div class="grp">
-    <div class="t">电梯</div>
+    <div class="t">电梯 / 用途</div>
     <div class="opts" id="elevOpts">
       <div class="opt" data-elev="1">有电梯</div>
       <div class="opt" data-elev="0">无电梯</div>
+      <div class="opt" data-purpose="住宅">住宅</div>
     </div>
   </div>
   <div class="grp">
     <div class="t">装修</div>
     <div class="opts" id="decoOpts"></div>
+  </div>
+  <div class="grp">
+    <div class="t"><span>自动过滤项</span><span style="color:#9aa1b0">默认全部开启</span></div>
+    <div class="opts" id="exOpts">
+      <div class="opt on" data-ex="ex_apartment">排除公寓/商住</div>
+      <div class="opt on" data-ex="ex_small">排除小产权</div>
+      <div class="opt on" data-ex="ex_rural">排除农村/偏远</div>
+      <div class="opt on" data-ex="ex_fake">排除疑似虚假</div>
+      <div class="opt on" data-ex="ex_dup">排除重复挂牌</div>
+      <div class="opt on" data-ex="ex_stale">排除挂牌超2年</div>
+      <div class="opt on" data-ex="ex_incomplete">排除信息缺失</div>
+    </div>
+  </div>
+  <div class="grp">
+    <button class="btn warn" id="showExcluded" style="width:100%">查看被过滤的房源</button>
   </div>
   <div class="sheet-foot">
     <button class="btn ghost" id="reset">重置</button>
@@ -194,67 +227,97 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
 <div class="modal-mask" id="mMask"></div>
 <div class="modal" id="modal">
   <div class="mhead">
-    <div><div class="name" id="mName" style="font-size:16px"></div><div class="loc" id="mLoc"></div></div>
+    <div><div class="ttl" id="mName" style="font-size:16px"></div><div class="loc" id="mLoc"></div></div>
     <button class="close" id="mClose">✕</button>
   </div>
   <div class="mbody">
     <div class="desc" id="mPrice"></div>
+    <div id="mRisk"></div>
     <div class="grid" id="mGrid"></div>
     <div class="desc" id="mComm"></div>
   </div>
-  <div class="mfoot">
-    <a id="mLink" href="#" target="_blank" rel="noopener">查看原始房源</a>
-  </div>
+  <div class="mfoot"><a id="mLink" href="#" target="_blank" rel="noopener">查看原始房源</a></div>
+</div>
+
+<div class="modal-mask" id="aMask"></div>
+<div class="modal" id="aModal">
+  <div class="mhead"><div class="ttl">40 万内 · 环沪房源分析</div><button class="close" id="aClose">✕</button></div>
+  <div class="mbody" id="aBody"><div class="empty">加载中…</div></div>
 </div>
 
 <div class="bottom-bar">
   <div class="cnt" id="cnt">共 -- 套</div>
+  <button class="alt" id="openAnalysis">分析</button>
   <button id="openFilter">筛选</button>
 </div>
 
 <script>
 const S = {
-  q:"", districts:[], pmin:"", pmax:"", amin:"", amax:"",
-  rooms:[], elevator:"", deco:[], sort:"price_asc", page:0, size:30,
-  total:0, loading:false, done:false, onlyFav:false
+  q:"", city:[], pmin:"", pmax:"", amin:"", amax:"",
+  rooms:[], elevator:"", purpose:"", deco:[], sort:"recommend", page:0, size:30,
+  total:0, loading:false, done:false, onlyFav:false, mode:"clean", ex:{}
 };
-const FAV = new Set(JSON.parse(localStorage.getItem("jx_fav")||"[]"));
+const EXKEYS = ["ex_apartment","ex_small","ex_rural","ex_fake","ex_dup","ex_stale","ex_incomplete"];
+EXKEYS.forEach(k=>S.ex[k]="1");
+const FAV = new Set(JSON.parse(localStorage.getItem("sh_fav")||"[]"));
 const $ = id => document.getElementById(id);
 const fmt = (n,d=0) => (n===null||n===undefined||n==="")?"--":Number(n).toFixed(d).replace(/\.0+$/,"");
-
-function saveFav(){ localStorage.setItem("jx_fav", JSON.stringify([...FAV])); }
+const esc = s => String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function saveFav(){ localStorage.setItem("sh_fav", JSON.stringify([...FAV])); }
 
 async function loadMeta(){
   const r = await fetch("/api/meta").then(x=>x.json());
+  window.META = r;
   $("total").textContent = r.total.toLocaleString();
-  $("budget").textContent = r.budget.toLocaleString();
+  $("clean").textContent = r.clean.toLocaleString();
   $("upt").textContent = (r.crawl_time||"").slice(5,16);
-  const box = $("distChips");
-  const ds = r.districts.filter(d => d.count >= 10);
-  box.innerHTML = `<div class="chip active" data-d="">全部<span class="n">${r.total}</span></div>` +
-    ds.map(d=>`<div class="chip" data-d="${d.name}">${d.name}<span class="n">${d.count}</span></div>`).join("");
+  const box = $("cityChips");
+  box.innerHTML = `<div class="chip active" data-c="">全部<span class="n">${r.clean}</span></div>` +
+    r.cities.map(d=>`<div class="chip" data-c="${esc(d.name)}">${esc(d.name)}<span class="n">${d.count}</span></div>`).join("");
   box.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
     box.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
     c.classList.add("active");
-    S.districts = c.dataset.d ? [c.dataset.d] : [];
+    S.city = c.dataset.c ? [c.dataset.c] : [];
     reload();
   });
   const deco = $("decoOpts");
-  deco.innerHTML = r.decorations.map(d=>`<div class="opt" data-deco="${d.name}">${d.name}</div>`).join("");
+  deco.innerHTML = r.decorations.map(d=>`<div class="opt" data-deco="${esc(d.name)}">${esc(d.name)}</div>`).join("");
   deco.querySelectorAll(".opt").forEach(o=>o.onclick=()=>o.classList.toggle("on"));
+  if(r.excluded) updateNotice();
+}
+
+function updateNotice(){
+  const m = window.META;
+  if(!m) return;
+  const n = Object.values(m.excluded||{}).reduce((a,b)=>a+ (b||0), 0);
+  $("notice").style.display = "block";
+  $("notice").innerHTML = S.mode==="excluded"
+    ? `当前正在查看被自动过滤的房源（含公寓/小产权/农村/疑似虚假/重复/超2年）。共命中 ${n} 条，命中项可能有重叠。`
+    : `已自动过滤公寓商住、小产权、农村偏远、疑似虚假、重复挂牌、挂牌超2年等 ${n} 条；首页只展示相对可信的住宅。`;
 }
 
 function qs(){
   const p = new URLSearchParams();
   if(S.q) p.set("q", S.q);
-  if(S.districts.length) p.set("district", S.districts.join(","));
+  if(S.city.length) p.set("city", S.city.join(","));
   ["pmin","pmax","amin","amax"].forEach(k=>{ if(S[k]!=="") p.set(k,S[k]); });
   if(S.rooms.length) p.set("rooms", S.rooms.join(","));
   if(S.elevator!=="") p.set("elevator", S.elevator);
+  if(S.purpose) p.set("purpose", S.purpose);
   if(S.deco.length) p.set("decoration", S.deco.join(","));
+  EXKEYS.forEach(k=>p.set(k, S.ex[k]));
+  if(S.mode==="excluded") p.set("mode","excluded");
   if(S.onlyFav){ p.set("only_fav","1"); p.set("ids",[...FAV].join(",")); }
   p.set("sort", S.sort); p.set("page", S.page); p.set("size", S.size);
   return p.toString();
+}
+
+function riskTag(it){
+  if(S.mode==="excluded"){
+    return `<span class="tag r">${esc(it.exclude_reason||"已过滤")}</span>`;
+  }
+  const cls = it.risk_score<45 ? "r" : it.risk_score<70 ? "w" : "g";
+  return `<span class="tag ${cls}">${esc(it.risk_label||"待评估")} ${it.risk_score??"--"}</span>`;
 }
 
 function card(it){
@@ -262,35 +325,33 @@ function card(it){
   let dev = "";
   if(it.deviation !== null && it.deviation !== undefined && it.med_unit){
     const pct = (it.deviation*100).toFixed(1);
-    if(Math.abs(it.deviation) < 0.001){
-      dev = `<span class="dev flat">与小区均价持平</span>`;
-    } else {
-      const cls = it.deviation < 0 ? "down" : "up";
-      dev = `<span class="dev ${cls}">${it.deviation<0?"低":"高"}于小区均价 ${Math.abs(pct)}%</span>`;
-    }
+    if(Math.abs(it.deviation) < 0.001) dev = `<span class="dev flat">与小区均价持平</span>`;
+    else if(it.deviation < 0) dev = `<span class="dev down">低于小区均价 ${Math.abs(pct)}%</span>`;
+    else dev = `<span class="dev up">高于小区均价 ${pct}%</span>`;
   }
   const tags = [
     it.area ? `<span class="tag">${fmt(it.area,1)}㎡</span>` : "",
-    it.layout ? `<span class="tag">${it.layout}</span>` : "",
-    it.orientation ? `<span class="tag">${it.orientation}</span>` : "",
-    it.floor_desc ? `<span class="tag">${it.floor_desc}${it.total_floor?"/"+it.total_floor+"层":""}</span>` : "",
+    it.layout ? `<span class="tag">${esc(it.layout)}</span>` : "",
+    it.floor_desc ? `<span class="tag">${esc(it.floor_desc)}${it.total_floor?"/"+it.total_floor+"层":""}</span>` : "",
     it.elevator ? `<span class="tag ${it.elevator==="有"?"g":"w"}">${it.elevator}电梯</span>` : "",
-    it.decoration ? `<span class="tag">${it.decoration}</span>` : "",
+    it.decoration ? `<span class="tag">${esc(it.decoration)}</span>` : "",
+    it.purpose ? `<span class="tag b">${esc(it.purpose)}</span>` : ""
   ].join("");
-  return `<div class="card" data-id="${it.house_id}">
+  const dist = it.dist_sh ? `<span>距上海 ${fmt(it.dist_sh,0)}km</span>` : "";
+  return `<div class="card" data-id="${esc(it.house_id)}">
     <div class="top">
       <div style="min-width:0">
-        <div class="name">${it.community||"未知小区"}</div>
-        <div class="loc">${it.district||""}${it.block?" · "+it.block:""}</div>
+        <div class="name">${esc(it.community)||"未知小区"}</div>
+        <div class="loc">${esc(it.city)}${it.area_name && it.area_name!=="未标注"?" · "+esc(it.area_name):""}${it.block?" · "+esc(it.block):""}</div>
       </div>
       <div class="price">
         <div class="p">${fmt(it.total_price,0)}<small>万</small></div>
         <div class="u">${it.unit_price?fmt(it.unit_price,0)+" 元/㎡":""}</div>
       </div>
     </div>
-    <div class="meta">${tags}</div>
-    <div class="row2"><span>${dev}</span><span>${it.list_date?it.list_date+" 挂牌":""}</span></div>
-    <button class="star ${fav}" data-fav="${it.house_id}">★</button>
+    <div class="meta">${tags}${riskTag(it)}</div>
+    <div class="row2"><span>${dev}</span><span>${dist}${it.list_date?" · "+it.list_date:""}</span></div>
+    <button class="star ${fav}" data-fav="${esc(it.house_id)}">★</button>
   </div>`;
 }
 
@@ -300,28 +361,25 @@ async function load(){
   $("more").textContent = "加载中…";
   const r = await fetch("/api/items?"+qs()).then(x=>x.json());
   S.total = r.total;
-  $("cnt").innerHTML = `共 <b>${r.total.toLocaleString()}</b> 套${S.onlyFav?"（收藏）":""}`;
+  $("cnt").innerHTML = `共 <b>${r.total.toLocaleString()}</b> 套${S.onlyFav?"（收藏）":""}${S.mode==="excluded"?"（已过滤）":""}`;
   if(S.page===0){
     const empty = S.onlyFav
       ? `<div class="empty">还没有收藏<br>点卡片右下角 ★ 收藏心仪房源</div>`
-      : `<div class="empty">没有符合条件的房源<br>试试放宽价格或面积</div>`;
-    $("list").innerHTML = r.items.length? r.items.map(card).join("") : empty;
+      : `<div class="empty">没有符合条件的房源<br>试试放宽面积/价格，或取消部分过滤项</div>`;
+    $("list").innerHTML = r.items.length ? r.items.map(card).join("") : empty;
   } else {
     $("list").insertAdjacentHTML("beforeend", r.items.map(card).join(""));
   }
   bindCards();
   S.loading = false;
-  if((S.page+1)*S.size >= r.total){ S.done = true; $("more").textContent = r.total? `已全部加载（${r.total} 套）` : ""; }
-  else $("more").textContent = "上滑加载更多";
   S.page++;
+  if(S.page*S.size >= r.total){ S.done = true; $("more").textContent = r.total?`已全部加载（${r.total} 套）`:""; }
+  else $("more").textContent = "上滑加载更多";
 }
 
 function bindCards(){
   document.querySelectorAll(".card").forEach(c=>{
-    c.onclick = e=>{
-      if(e.target.dataset.fav) return;
-      openDetail(c.dataset.id);
-    };
+    c.onclick = e=>{ if(e.target.dataset.fav) return; openDetail(c.dataset.id); };
   });
   document.querySelectorAll("[data-fav]").forEach(b=>{
     b.onclick = e=>{
@@ -341,23 +399,33 @@ let CACHE = {};
 async function openDetail(id){
   let it = CACHE[id];
   if(!it){
-    const r = await fetch("/api/items?size=1&page=0&ids="+id+"&only_fav=1").then(x=>x.json());
+    const r = await fetch("/api/items?size=1&page=0&ids="+encodeURIComponent(id)+"&only_fav=1&all=1").then(x=>x.json());
     it = r.items[0];
   }
   if(!it) return;
+  CACHE[id]=it;
   $("mName").textContent = it.community||"未知小区";
-  $("mLoc").textContent = `${it.district||""}${it.block?" · "+it.block:""}`;
+  $("mLoc").textContent = `${it.city||""}${it.area_name && it.area_name!=="未标注"?" · "+it.area_name:""}${it.block?" · "+it.block:""}`;
   $("mPrice").innerHTML = `<b style="font-size:22px;color:#c2410c">${fmt(it.total_price,0)} 万</b>
      <span style="color:#7a8194;margin-left:8px">${it.unit_price?fmt(it.unit_price,0)+" 元/㎡":""}</span>
-     ${it.med_unit?`<div style="margin-top:6px;font-size:12.5px;color:#7a8194">小区中位单价 ${fmt(it.med_unit,0)} 元/㎡　同小区在售 ${it.n||"-"} 套</div>`:""}`;
+     ${it.med_unit?`<div style="margin-top:6px;font-size:12.5px;color:#7a8194">小区中位单价 ${fmt(it.med_unit,0)} 元/㎡　同小区40万内在售 ${it.n||"-"} 套</div>`:""}`;
+  const cls = it.risk_score<45?"bad":it.risk_score<70?"mid":"ok";
+  $("mRisk").innerHTML = `<div class="riskbox ${cls}">
+      <b>${esc(it.risk_label||"待评估")} · 可信度 ${it.risk_score??"--"}</b>
+      ${it.risk_flags?`<div style="margin-top:4px">风险标记：${esc(it.risk_flags)}</div>`:""}
+      ${it.exclude_reason?`<div style="margin-top:4px">过滤原因：${esc(it.exclude_reason)}</div>`:""}
+    </div>`;
   const rows = [
     ["户型", it.layout], ["建筑面积", it.area?fmt(it.area,2)+" ㎡":""],
     ["朝向", it.orientation], ["楼层", it.floor_desc?(it.floor_desc+(it.total_floor?"（共"+it.total_floor+"层）":"")):""],
     ["装修", it.decoration], ["电梯", it.elevator], ["梯户比", it.elevator_ratio],
     ["建成年代", it.build_year], ["房屋用途", it.purpose], ["建筑结构", it.structure],
     ["供暖", it.heating], ["抵押", it.mortgage], ["挂牌时间", it.list_date], ["上次交易", it.last_trade],
+    ["平台认证", it.authentic],
+    ["距上海市中心", it.dist_sh?fmt(it.dist_sh,1)+" km":""], ["距本市中心", it.dist_center?fmt(it.dist_center,1)+" km":""],
+    ["地址", it.address], ["数据来源", it.source]
   ];
-  $("mGrid").innerHTML = rows.filter(r=>r[1]).map(r=>`<div class="gi"><div class="k">${r[0]}</div><div class="v">${r[1]}</div></div>`).join("");
+  $("mGrid").innerHTML = rows.filter(r=>r[1]).map(r=>`<div class="gi"><div class="k">${r[0]}</div><div class="v">${esc(r[1])}</div></div>`).join("");
   $("mComm").textContent = "标题：" + (it.title || "—");
   $("mLink").href = it.url || "#";
   $("modal").classList.add("show"); $("mMask").classList.add("show");
@@ -366,12 +434,48 @@ async function openDetail(id){
 function closeAll(){
   $("sheet").classList.remove("show"); $("mask").classList.remove("show");
   $("modal").classList.remove("show"); $("mMask").classList.remove("show");
+  $("aModal").classList.remove("show"); $("aMask").classList.remove("show");
+}
+
+async function openAnalysis(){
+  $("aModal").classList.add("show"); $("aMask").classList.add("show");
+  $("aBody").innerHTML = `<div class="empty">加载中…</div>`;
+  let a;
+  try { a = await fetch("/api/analysis").then(x=>x.json()); }
+  catch(e){ $("aBody").innerHTML = `<div class="empty">分析数据加载失败</div>`; return; }
+  if(a.error){ $("aBody").innerHTML = `<div class="empty">${esc(a.error)}</div>`; return; }
+  const exc = a.excluded||{};
+  const exHtml = Object.entries(exc).map(([k,v])=>`<li><span>${esc(k)}</span><b>${v}</b></li>`).join("");
+  const maxCity = Math.max(...(a.cities||[]).map(x=>x.count),1);
+  const cityHtml = (a.cities||[]).map(c=>`<div class="bar"><span class="lab">${esc(c.key)}</span>
+      <span class="track"><span class="fill" style="width:${Math.max(4,c.count/maxCity*100)}%"></span></span>
+      <span class="val">${c.count}</span></div>`).join("");
+  const maxBand = Math.max(...(a.price_bands||[]).map(x=>x.count),1);
+  const bandHtml = (a.price_bands||[]).map(c=>`<div class="bar"><span class="lab">${esc(c.key)}</span>
+      <span class="track"><span class="fill" style="width:${Math.max(4,c.count/maxBand*100)}%"></span></span>
+      <span class="val">${c.count}</span></div>`).join("");
+  const commHtml = (a.communities||[]).slice(0,12).map(c=>`<li><span>${esc(c.key)}</span><b>${c.count}套 / ${c.median_price??"-"}万</b></li>`).join("");
+  const sampleHtml = (a.samples&&a.samples.fake||[]).slice(0,6).map(s=>`<li><span>${esc(s.city)}·${esc(s.community)} ${s.total_price}万 ${s.area}㎡</span><b>${esc(s.risk_flags||"疑似")}</b></li>`).join("");
+  $("aBody").innerHTML = `
+    <div class="big">数据快照：${esc(a.generated_at)}　规则：总价 ≤40 万、住宅、非小产权、非农村、去重、过滤异常低价</div>
+    <div class="an-grid">
+      <div class="an-card"><div class="n">${a.total_in_budget}</div><div class="k">40万内原始</div></div>
+      <div class="an-card"><div class="n">${a.clean_count}</div><div class="k">过滤后精选</div></div>
+      <div class="an-card"><div class="n">${a.total_in_budget-a.clean_count}</div><div class="k">已过滤/存疑</div></div>
+    </div>
+    <div class="an-sec"><h4>过滤原因（可重叠）</h4><ul class="exlist">${exHtml}</ul></div>
+    <div class="an-sec"><h4>各城市精选套数</h4>${cityHtml}</div>
+    <div class="an-sec"><h4>总价分布</h4>${bandHtml}</div>
+    <div class="an-sec"><h4>热门小区 TOP12</h4><ul class="exlist">${commHtml}</ul></div>
+    ${sampleHtml?`<div class="an-sec"><h4>疑似虚假/异常房源示例</h4><ul class="exlist">${sampleHtml}</ul></div>`:""}
+    <div class="an-sec"><h4>清洗规则</h4><ol class="rules">${(a.method||[]).map(m=>`<li>${esc(m)}</li>`).join("")}</ol></div>
+    <div class="desc">说明：虚假房源无法 100% 判定，本页按“异常低价/单价与总价不符/非住宅/多中介重复”等信号做疑似过滤，最终以产权核验和实地看房为准。</div>`;
 }
 
 $("favBtn").onclick = ()=>{
   S.onlyFav = !S.onlyFav;
   $("favBtn").classList.toggle("on", S.onlyFav);
-  $("favBtn").textContent = S.onlyFav ? "★ 收藏中" : "★ 收藏";
+  $("favBtn").textContent = S.onlyFav ? "★ 收藏中" : "★";
   reload();
 };
 document.querySelectorAll("#sorts span").forEach(s=>s.onclick=()=>{
@@ -386,12 +490,14 @@ $("q").oninput = e=>{
 $("mask").onclick = closeAll;
 $("mMask").onclick = closeAll;
 $("mClose").onclick = closeAll;
+$aClose = $("aClose"); $aClose.onclick = closeAll;
+$aMask = $("aMask"); $aMask.onclick = closeAll;
 
 document.querySelectorAll("[data-p]").forEach(o=>o.onclick=()=>{
   const was = o.classList.contains("on");
   document.querySelectorAll("[data-p]").forEach(x=>x.classList.remove("on"));
   if(was){ $("pmin").value=""; $("pmax").value=""; return; }
-  const [a,b]=o.dataset.p.split("|"); $("pmin").value=a==="0"?"":a; $("pmax").value=b==="9999"?"":b;
+  const [a,b]=o.dataset.p.split("|"); $("pmin").value=a==="0"?"":a; $("pmax").value=b;
   o.classList.add("on");
 });
 document.querySelectorAll("[data-a]").forEach(o=>o.onclick=()=>{
@@ -406,24 +512,44 @@ document.querySelectorAll("[data-a]").forEach(o=>o.onclick=()=>{
 $("roomOpts").querySelectorAll(".opt").forEach(o=>o.onclick=()=>o.classList.toggle("on"));
 $("elevOpts").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
   const on = !o.classList.contains("on");
-  $("elevOpts").querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));
+  const isElev = o.dataset.elev !== undefined;
+  if(isElev) $("elevOpts").querySelectorAll("[data-elev]").forEach(x=>x.classList.remove("on"));
+  else $("elevOpts").querySelectorAll("[data-purpose]").forEach(x=>x.classList.remove("on"));
   if(on) o.classList.add("on");
 });
+document.querySelectorAll("[data-ex]").forEach(o=>o.onclick=()=>o.classList.toggle("on"));
 $("reset").onclick = ()=>{
   ["pmin","pmax","amin","amax"].forEach(k=>$(k).value="");
-  document.querySelectorAll(".opt.on").forEach(o=>o.classList.remove("on"));
+  document.querySelectorAll(".opt.on").forEach(o=>{
+    if(o.dataset.ex) o.classList.add("on"); else o.classList.remove("on");
+  });
+  document.querySelectorAll("[data-ex]").forEach(o=>o.classList.add("on"));
 };
 $("apply").onclick = ()=>{
   S.pmin=$("pmin").value; S.pmax=$("pmax").value; S.amin=$("amin").value; S.amax=$("amax").value;
   S.rooms=[...$("roomOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.room);
-  const el=[...$("elevOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.elev);
+  const el=[...$("elevOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.elev).filter(Boolean);
   S.elevator = el.length? el[0] : "";
+  const pu=[...$("elevOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.purpose).filter(Boolean);
+  S.purpose = pu.length? pu[0] : "";
   S.deco=[...$("decoOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.deco);
+  EXKEYS.forEach(k=>S.ex[k]="1");
+  document.querySelectorAll("[data-ex].on").forEach(o=>S.ex[o.dataset.ex]="1");
+  document.querySelectorAll("[data-ex]").forEach(o=>{ if(!o.classList.contains("on")) S.ex[o.dataset.ex]="0"; });
+  S.mode = "clean";
+  updateNotice();
   closeAll(); reload();
 };
-
-$("openFilter").onclick = ()=>{ $("sheet").scrollTop = 0; $("sheet").classList.add("show"); $("mask").classList.add("show"); };
+$("showExcluded").onclick = ()=>{
+  S.mode = "excluded";
+  updateNotice();
+  closeAll(); reload();
+};
+function openSheet(){ $("sheet").scrollTop = 0; $("sheet").classList.add("show"); $("mask").classList.add("show"); }
+$("openFilter").onclick = openSheet;
 $("sheetClose").onclick = closeAll;
+$("analysisBtn").onclick = openAnalysis;
+$("openAnalysis").onclick = openAnalysis;
 
 window.addEventListener("scroll", ()=>{
   if(document.body.scrollHeight - window.scrollY - window.innerHeight < 400) load();

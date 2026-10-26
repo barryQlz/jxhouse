@@ -1,0 +1,6 @@
+tunnel: 01102ed9-d485-466c-a2ec-ff0b8f1abd3a
+credentials-file: /workspace/cf_creds.json
+ingress:
+  - hostname: filing-soft-big-loads.trycloudflare.com
+    service: http://127.0.0.1:8000
+  - service: http_status:404

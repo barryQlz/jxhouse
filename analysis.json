@@ -1,0 +1,979 @@
+{
+  "generated_at": "2026-10-26 03:00:29",
+  "total_in_budget": 8111,
+  "clean_count": 4574,
+  "excluded": {
+    "公寓/商住/非住宅": 2187,
+    "小产权/无产权": 10,
+    "农村/偏远": 505,
+    "疑似虚假/异常": 54,
+    "重复挂牌": 1108,
+    "挂牌超2年": 310,
+    "信息缺失": 0
+  },
+  "cities": [
+    {
+      "key": "上海",
+      "count": 79,
+      "median_price": 35.0,
+      "median_unit": 7110
+    },
+    {
+      "key": "昆山",
+      "count": 364,
+      "median_price": 35.0,
+      "median_unit": 6648
+    },
+    {
+      "key": "太仓",
+      "count": 3,
+      "median_price": 38.0,
+      "median_unit": 4269
+    },
+    {
+      "key": "苏州",
+      "count": 12,
+      "median_price": 32.5,
+      "median_unit": 14045
+    },
+    {
+      "key": "常熟",
+      "count": 109,
+      "median_price": 35.0,
+      "median_unit": 6334
+    },
+    {
+      "key": "南通",
+      "count": 1567,
+      "median_price": 35.0,
+      "median_unit": 5360
+    },
+    {
+      "key": "启东",
+      "count": 63,
+      "median_price": 32.0,
+      "median_unit": 3577
+    },
+    {
+      "key": "海门",
+      "count": 58,
+      "median_price": 31.5,
+      "median_unit": 5216
+    },
+    {
+      "key": "嘉兴",
+      "count": 1033,
+      "median_price": 35.0,
+      "median_unit": 5923
+    },
+    {
+      "key": "湖州",
+      "count": 1286,
+      "median_price": 34.8,
+      "median_unit": 6272
+    }
+  ],
+  "districts": [
+    {
+      "key": "南通·未标注",
+      "count": 1044,
+      "median_price": 35.0,
+      "median_unit": 5536
+    },
+    {
+      "key": "湖州·未标注",
+      "count": 980,
+      "median_price": 35.0,
+      "median_unit": 6365
+    },
+    {
+      "key": "嘉兴·未标注",
+      "count": 336,
+      "median_price": 34.9,
+      "median_unit": 5912
+    },
+    {
+      "key": "昆山·未标注",
+      "count": 296,
+      "median_price": 35.0,
+      "median_unit": 6868
+    },
+    {
+      "key": "嘉兴·嘉善",
+      "count": 220,
+      "median_price": 35.0,
+      "median_unit": 5318
+    },
+    {
+      "key": "嘉兴·南湖",
+      "count": 148,
+      "median_price": 35.0,
+      "median_unit": 6235
+    },
+    {
+      "key": "常熟·未标注",
+      "count": 94,
+      "median_price": 35.0,
+      "median_unit": 6111
+    },
+    {
+      "key": "嘉兴·秀洲",
+      "count": 64,
+      "median_price": 35.0,
+      "median_unit": 6374
+    },
+    {
+      "key": "启东·未标注",
+      "count": 53,
+      "median_price": 31.5,
+      "median_unit": 3556
+    },
+    {
+      "key": "嘉兴·桐乡",
+      "count": 49,
+      "median_price": 35.0,
+      "median_unit": 7789
+    },
+    {
+      "key": "上海·未标注",
+      "count": 49,
+      "median_price": 34.0,
+      "median_unit": 7393
+    },
+    {
+      "key": "海门·未标注",
+      "count": 48,
+      "median_price": 29.9,
+      "median_unit": 5281
+    },
+    {
+      "key": "南通·崇川",
+      "count": 43,
+      "median_price": 31.8,
+      "median_unit": 5897
+    },
+    {
+      "key": "嘉兴·中心城区",
+      "count": 34,
+      "median_price": 36.0,
+      "median_unit": 7647
+    },
+    {
+      "key": "南通·如皋",
+      "count": 33,
+      "median_price": 30.0,
+      "median_unit": 3457
+    },
+    {
+      "key": "南通·海门",
+      "count": 31,
+      "median_price": 29.8,
+      "median_unit": 5200
+    },
+    {
+      "key": "嘉兴·海宁",
+      "count": 31,
+      "median_price": 35.0,
+      "median_unit": 6154
+    },
+    {
+      "key": "湖州·吴兴区",
+      "count": 30,
+      "median_price": 18.8,
+      "median_unit": 5032
+    },
+    {
+      "key": "湖州·吴兴",
+      "count": 29,
+      "median_price": 18.5,
+      "median_unit": 4986
+    },
+    {
+      "key": "湖州·南浔",
+      "count": 27,
+      "median_price": 33.0,
+      "median_unit": 4652
+    },
+    {
+      "key": "南通·开发区",
+      "count": 26,
+      "median_price": 18.4,
+      "median_unit": 4588
+    },
+    {
+      "key": "嘉兴·国际商务区",
+      "count": 24,
+      "median_price": 35.0,
+      "median_unit": 5110
+    },
+    {
+      "key": "南通·港闸",
+      "count": 21,
+      "median_price": 18.0,
+      "median_unit": 5000
+    },
+    {
+      "key": "嘉兴·经济开发区",
+      "count": 21,
+      "median_price": 32.0,
+      "median_unit": 6594
+    },
+    {
+      "key": "昆山·周庄",
+      "count": 17,
+      "median_price": 36.0,
+      "median_unit": 5746
+    },
+    {
+      "key": "湖州·长兴",
+      "count": 13,
+      "median_price": 20.8,
+      "median_unit": 4179
+    },
+    {
+      "key": "南通·出行方便",
+      "count": 13,
+      "median_price": 35.0,
+      "median_unit": 4267
+    },
+    {
+      "key": "南通·海安",
+      "count": 12,
+      "median_price": 33.9,
+      "median_unit": 3646
+    },
+    {
+      "key": "南通·通州",
+      "count": 11,
+      "median_price": 36.0,
+      "median_unit": 4331
+    },
+    {
+      "key": "嘉兴·秀湖",
+      "count": 11,
+      "median_price": 32.0,
+      "median_unit": 6026
+    }
+  ],
+  "price_bands": [
+    {
+      "key": "35-40万",
+      "count": 2366,
+      "median_price": 38.0,
+      "median_unit": 6210
+    },
+    {
+      "key": "30-35万",
+      "count": 967,
+      "median_price": 32.0,
+      "median_unit": 5882
+    },
+    {
+      "key": "25-30万",
+      "count": 764,
+      "median_price": 28.0,
+      "median_unit": 5626
+    },
+    {
+      "key": "20-25万",
+      "count": 317,
+      "median_price": 22.8,
+      "median_unit": 5240
+    },
+    {
+      "key": "15-20万",
+      "count": 140,
+      "median_price": 18.0,
+      "median_unit": 4623
+    },
+    {
+      "key": "15万以下",
+      "count": 20,
+      "median_price": 13.0,
+      "median_unit": 3488
+    }
+  ],
+  "area_bands": [
+    {
+      "key": "50-70㎡",
+      "count": 1745,
+      "median_price": 35.0,
+      "median_unit": 5900
+    },
+    {
+      "key": "30-50㎡",
+      "count": 1688,
+      "median_price": 30.0,
+      "median_unit": 7311
+    },
+    {
+      "key": "70-90㎡",
+      "count": 714,
+      "median_price": 36.8,
+      "median_unit": 4551
+    },
+    {
+      "key": "90-120㎡",
+      "count": 311,
+      "median_price": 36.8,
+      "median_unit": 3642
+    },
+    {
+      "key": "30㎡以下",
+      "count": 65,
+      "median_price": 23.0,
+      "median_unit": 9729
+    },
+    {
+      "key": "120㎡以上",
+      "count": 51,
+      "median_price": 38.0,
+      "median_unit": 2823
+    }
+  ],
+  "rooms": [
+    {
+      "key": "2室",
+      "count": 1981,
+      "median_price": 35.8,
+      "median_unit": 5569
+    },
+    {
+      "key": "1室",
+      "count": 1841,
+      "median_price": 32.0,
+      "median_unit": 6667
+    },
+    {
+      "key": "3室",
+      "count": 467,
+      "median_price": 36.8,
+      "median_unit": 4025
+    },
+    {
+      "key": "未知",
+      "count": 264,
+      "median_price": 28.0,
+      "median_unit": 6988
+    },
+    {
+      "key": "4室",
+      "count": 19,
+      "median_price": 37.0,
+      "median_unit": 3279
+    },
+    {
+      "key": "5室",
+      "count": 2,
+      "median_price": 37.3,
+      "median_unit": 5696
+    }
+  ],
+  "communities": [
+    {
+      "key": "南通·虹桥新村",
+      "count": 70,
+      "median_price": 33.0,
+      "median_unit": 6332
+    },
+    {
+      "key": "湖州·湖东小区",
+      "count": 61,
+      "median_price": 35.0,
+      "median_unit": 6438
+    },
+    {
+      "key": "湖州·星汇半岛",
+      "count": 44,
+      "median_price": 27.4,
+      "median_unit": 7064
+    },
+    {
+      "key": "昆山·盛世明珠园小区",
+      "count": 35,
+      "median_price": 28.0,
+      "median_unit": 5025
+    },
+    {
+      "key": "湖州·凤凰熙城",
+      "count": 33,
+      "median_price": 28.8,
+      "median_unit": 5613
+    },
+    {
+      "key": "南通·城港新村",
+      "count": 33,
+      "median_price": 36.0,
+      "median_unit": 5746
+    },
+    {
+      "key": "湖州·东湖家园",
+      "count": 33,
+      "median_price": 35.0,
+      "median_unit": 5874
+    },
+    {
+      "key": "嘉兴·江南新家园",
+      "count": 33,
+      "median_price": 35.0,
+      "median_unit": 5312
+    },
+    {
+      "key": "嘉兴·东鼎名人府邸",
+      "count": 32,
+      "median_price": 33.8,
+      "median_unit": 5602
+    },
+    {
+      "key": "湖州·爱家华城",
+      "count": 30,
+      "median_price": 32.5,
+      "median_unit": 7174
+    },
+    {
+      "key": "南通·红星天铂",
+      "count": 30,
+      "median_price": 31.4,
+      "median_unit": 5677
+    },
+    {
+      "key": "湖州·中建投悦湖名城",
+      "count": 29,
+      "median_price": 35.0,
+      "median_unit": 4158
+    },
+    {
+      "key": "湖州·佳源公园一号",
+      "count": 27,
+      "median_price": 30.0,
+      "median_unit": 5556
+    },
+    {
+      "key": "湖州·华丰小区",
+      "count": 27,
+      "median_price": 36.0,
+      "median_unit": 7547
+    },
+    {
+      "key": "嘉兴·春风十里",
+      "count": 27,
+      "median_price": 35.0,
+      "median_unit": 6035
+    },
+    {
+      "key": "湖州·金泉花园",
+      "count": 25,
+      "median_price": 33.8,
+      "median_unit": 7247
+    },
+    {
+      "key": "嘉兴·桃源林语",
+      "count": 25,
+      "median_price": 33.0,
+      "median_unit": 5776
+    },
+    {
+      "key": "湖州·市陌路小区",
+      "count": 25,
+      "median_price": 36.8,
+      "median_unit": 6487
+    },
+    {
+      "key": "湖州·奥园壹号",
+      "count": 24,
+      "median_price": 35.0,
+      "median_unit": 6805
+    },
+    {
+      "key": "嘉兴·来凤小区",
+      "count": 24,
+      "median_price": 35.0,
+      "median_unit": 4636
+    },
+    {
+      "key": "南通·正泰·江岸水苑",
+      "count": 23,
+      "median_price": 18.0,
+      "median_unit": 4636
+    },
+    {
+      "key": "南通·国际车城",
+      "count": 23,
+      "median_price": 23.8,
+      "median_unit": 4656
+    },
+    {
+      "key": "海门·世茂云锦",
+      "count": 23,
+      "median_price": 22.8,
+      "median_unit": 6452
+    },
+    {
+      "key": "湖州·信业ICC",
+      "count": 23,
+      "median_price": 27.0,
+      "median_unit": 6515
+    },
+    {
+      "key": "湖州·景鸿铭城",
+      "count": 23,
+      "median_price": 29.8,
+      "median_unit": 7353
+    },
+    {
+      "key": "南通·中南·世纪城",
+      "count": 23,
+      "median_price": 35.8,
+      "median_unit": 6546
+    },
+    {
+      "key": "南通·新桥新村",
+      "count": 23,
+      "median_price": 35.0,
+      "median_unit": 6798
+    },
+    {
+      "key": "嘉兴·巴黎都市",
+      "count": 21,
+      "median_price": 30.0,
+      "median_unit": 8884
+    },
+    {
+      "key": "湖州·青塘小区",
+      "count": 21,
+      "median_price": 35.0,
+      "median_unit": 6141
+    },
+    {
+      "key": "湖州·绿城柳岸荷风",
+      "count": 21,
+      "median_price": 30.0,
+      "median_unit": 6272
+    }
+  ],
+  "samples": {
+    "fake": [
+      {
+        "house_id": "ks:3_511620458",
+        "city": "昆山",
+        "area_name": "昆山",
+        "block": "张浦",
+        "community": "淞秀园别墅",
+        "title": "淞秀园上叠别墅 带露台带花园 纯改善社区 送家电 學校0距离",
+        "total_price": 3.5,
+        "unit_price": 198.0,
+        "area": 176.0,
+        "layout": "4室2厅",
+        "list_date": "2026-08-24",
+        "risk_score": 0,
+        "risk_flags": "低价大面积疑似小产权|小产权|单价异常|总价异常|疑似虚假",
+        "exclude_reason": "小产权/无产权|疑似虚假/异常低价",
+        "url": "https://ks.esf.fang.com/chushou/3_511620458.htm"
+      },
+      {
+        "house_id": "huzhou:8_1020464228",
+        "city": "湖州",
+        "area_name": "吴兴",
+        "block": "湖东",
+        "community": "宝龙·旭辉城",
+        "title": "璀璨府1室0厅南",
+        "total_price": 3.5,
+        "unit_price": 3889.0,
+        "area": 9.0,
+        "layout": "1室",
+        "list_date": "2026-04-23",
+        "risk_score": 41,
+        "risk_flags": "面积异常|总价异常|疑似虚假",
+        "exclude_reason": "疑似虚假/异常低价",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1020464228.htm"
+      },
+      {
+        "house_id": "huzhou:8_1024290341",
+        "city": "湖州",
+        "area_name": "吴兴区",
+        "block": "东部新城",
+        "community": "恒大·林溪郡",
+        "title": "恒大·林溪郡1室0厅东南",
+        "total_price": 4.0,
+        "unit_price": 3077.0,
+        "area": 13.0,
+        "layout": "1室",
+        "list_date": "2026-09-14",
+        "risk_score": 33,
+        "risk_flags": "总价异常|疑似虚假",
+        "exclude_reason": "疑似虚假/异常低价",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1024290341.htm"
+      },
+      {
+        "house_id": "tc:3_155955356",
+        "city": "太仓",
+        "area_name": "太仓",
+        "block": "南郊",
+        "community": "吴中云溪华庭",
+        "title": "吴中云溪华庭 87平3居 南北向精装修 自住保养好",
+        "total_price": 5.0,
+        "unit_price": 574.0,
+        "area": 87.0,
+        "layout": "3室2厅2卫",
+        "list_date": "2025-05-12",
+        "risk_score": 45,
+        "risk_flags": "单价异常|疑似虚假",
+        "exclude_reason": "疑似虚假/异常低价",
+        "url": "https://tc.esf.fang.com/chushou/3_155955356.htm"
+      },
+      {
+        "house_id": "nt:8_1018305901",
+        "city": "南通",
+        "area_name": "未标注",
+        "block": "",
+        "community": "凌河新村",
+        "title": "凌河新村1室1厅南",
+        "total_price": 8.0,
+        "unit_price": 2034.0,
+        "area": 39.34,
+        "layout": "1室1厅",
+        "list_date": "2026-01-23",
+        "risk_score": 8,
+        "risk_flags": "远低于区县均价|疑似虚假|重复挂牌",
+        "exclude_reason": "疑似虚假/异常低价|重复挂牌(多中介)",
+        "url": "https://nt.esf.fang.com/chushou/8_1018305901.htm"
+      },
+      {
+        "house_id": "sh:8_1025116955",
+        "city": "上海",
+        "area_name": "未标注",
+        "block": null,
+        "community": "界河新村",
+        "title": "界河新村1室1厅南",
+        "total_price": 8.9,
+        "unit_price": 2500.0,
+        "area": 35.6,
+        "layout": "1室1厅",
+        "list_date": null,
+        "risk_score": 33,
+        "risk_flags": "远低于区县均价|疑似虚假",
+        "exclude_reason": "疑似虚假/异常低价",
+        "url": "https://sh.esf.fang.com/chushou/8_1025116955.htm"
+      },
+      {
+        "house_id": "huzhou:8_1018442580",
+        "city": "湖州",
+        "area_name": "吴兴区",
+        "block": "老城区",
+        "community": "碧桂园融信湖悦天境",
+        "title": "碧桂园融信湖悦天境1室0厅南北",
+        "total_price": 10.0,
+        "unit_price": 11364.0,
+        "area": 8.8,
+        "layout": "1室",
+        "list_date": "2026-01-29",
+        "risk_score": 45,
+        "risk_flags": "面积异常|疑似虚假",
+        "exclude_reason": "疑似虚假/异常低价",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1018442580.htm"
+      },
+      {
+        "house_id": "nt:8_1003085274",
+        "city": "南通",
+        "area_name": "海安",
+        "block": "海安",
+        "community": "海园新村",
+        "title": "宜居佳房,适合居住,价格便宜哦",
+        "total_price": 11.0,
+        "unit_price": 1166.0,
+        "area": 94.35,
+        "layout": "3室1厅",
+        "list_date": "2025-04-26",
+        "risk_score": 0,
+        "risk_flags": "农村偏远|单价异常|远低于区县均价|疑似虚假",
+        "exclude_reason": "农村/偏远|疑似虚假/异常低价",
+        "url": "https://nt.esf.fang.com/chushou/8_1003085274.htm"
+      }
+    ],
+    "apartment": [
+      {
+        "house_id": "nt:8_1023217049",
+        "city": "南通",
+        "area_name": "港闸",
+        "block": "唐闸",
+        "community": "永兴之星",
+        "title": "房子是一个公寓,低总价,居住成本低",
+        "total_price": 9.5,
+        "unit_price": 4040.0,
+        "area": 23.52,
+        "layout": "1室1厅",
+        "list_date": "2026-08-07",
+        "risk_score": 5,
+        "risk_flags": "公寓商住|重复挂牌",
+        "exclude_reason": "公寓/商住/非住宅|重复挂牌(多中介)",
+        "url": "https://nt.esf.fang.com/chushou/8_1023217049.htm"
+      },
+      {
+        "house_id": "nt:8_1023217048",
+        "city": "南通",
+        "area_name": "港闸",
+        "block": "唐闸",
+        "community": "永兴之星",
+        "title": "房子是公寓,低总价,居住成本低",
+        "total_price": 9.5,
+        "unit_price": 4040.0,
+        "area": 23.52,
+        "layout": "1室1厅",
+        "list_date": "2026-08-07",
+        "risk_score": 5,
+        "risk_flags": "公寓商住|重复挂牌",
+        "exclude_reason": "公寓/商住/非住宅|重复挂牌(多中介)",
+        "url": "https://nt.esf.fang.com/chushou/8_1023217048.htm"
+      },
+      {
+        "house_id": "nt:8_1023853329",
+        "city": "南通",
+        "area_name": "通州",
+        "block": "通州",
+        "community": "五洲国际汽车博览城公寓A区",
+        "title": "五洲公寓业主诚心出售有钥匙随时可以看房楼层好",
+        "total_price": 9.6,
+        "unit_price": 2474.0,
+        "area": 38.81,
+        "layout": "1室1厅",
+        "list_date": "2026-08-27",
+        "risk_score": 18,
+        "risk_flags": "公寓商住",
+        "exclude_reason": "公寓/商住/非住宅",
+        "url": "https://nt.esf.fang.com/chushou/8_1023853329.htm"
+      },
+      {
+        "house_id": "huzhou:8_1021568663",
+        "city": "湖州",
+        "area_name": "长兴",
+        "block": "长兴",
+        "community": "长兴轻纺城",
+        "title": "长兴轻纺城1室0厅南",
+        "total_price": 9.8,
+        "unit_price": 2242.0,
+        "area": 43.73,
+        "layout": "1室",
+        "list_date": "2026-06-04",
+        "risk_score": 26,
+        "risk_flags": "名称疑似商住公寓|名称疑似商业公寓",
+        "exclude_reason": "公寓/商住/非住宅",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1021568663.htm"
+      },
+      {
+        "house_id": "jx:16_5342164",
+        "city": "嘉兴",
+        "area_name": "南湖",
+        "block": "麦德龙",
+        "community": "嘉兴人才公寓",
+        "title": "南湖 嘉兴人才公寓 1室0厅",
+        "total_price": 11.0,
+        "unit_price": 8346.0,
+        "area": 13.18,
+        "layout": "1室",
+        "list_date": "",
+        "risk_score": 30,
+        "risk_flags": "公寓商住",
+        "exclude_reason": "公寓/商住/非住宅",
+        "url": "https://jx.esf.fang.com/chushou/16_5342164.htm"
+      },
+      {
+        "house_id": "nt:3_462689787",
+        "city": "南通",
+        "area_name": "港闸",
+        "block": "北大街",
+        "community": "美丽华商住楼",
+        "title": "美丽华新出 来电咨询优惠 家具家电全留 送车位 好楼层!",
+        "total_price": 11.5,
+        "unit_price": 3484.0,
+        "area": 33.0,
+        "layout": "1室1厅1卫",
+        "list_date": "2025-02-13",
+        "risk_score": 26,
+        "risk_flags": "公寓商住",
+        "exclude_reason": "公寓/商住/非住宅",
+        "url": "https://nt.esf.fang.com/chushou/3_462689787.htm"
+      },
+      {
+        "house_id": "nt:8_1020460143",
+        "city": "南通",
+        "area_name": "通州",
+        "block": "通州",
+        "community": "五洲国际汽车博览城公寓A区",
+        "title": "五洲国际汽车博览城公寓A区1室1厅北",
+        "total_price": 11.8,
+        "unit_price": 3041.0,
+        "area": 38.81,
+        "layout": "1室1厅",
+        "list_date": "2026-04-22",
+        "risk_score": 26,
+        "risk_flags": "公寓商住",
+        "exclude_reason": "公寓/商住/非住宅",
+        "url": "https://nt.esf.fang.com/chushou/8_1020460143.htm"
+      },
+      {
+        "house_id": "nt:8_1020460145",
+        "city": "南通",
+        "area_name": "通州",
+        "block": "通州",
+        "community": "五洲国际汽车博览城公寓A区",
+        "title": "五洲国际汽车博览城公寓A区1室1厅北",
+        "total_price": 11.8,
+        "unit_price": 3041.0,
+        "area": 38.81,
+        "layout": "1室1厅",
+        "list_date": "2026-04-22",
+        "risk_score": 1,
+        "risk_flags": "公寓商住|重复挂牌",
+        "exclude_reason": "公寓/商住/非住宅|重复挂牌(多中介)",
+        "url": "https://nt.esf.fang.com/chushou/8_1020460145.htm"
+      }
+    ],
+    "rural": [
+      {
+        "house_id": "huzhou:8_1012830907",
+        "city": "湖州",
+        "area_name": "长兴",
+        "block": "长兴",
+        "community": "长广金桂苑",
+        "title": "长广金桂苑2室1厅南",
+        "total_price": 10.0,
+        "unit_price": 1653.0,
+        "area": 60.5,
+        "layout": "2室1厅",
+        "list_date": "2025-08-04",
+        "risk_score": 28,
+        "risk_flags": "农村偏远",
+        "exclude_reason": "农村/偏远",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1012830907.htm"
+      },
+      {
+        "house_id": "nt:8_1015686214",
+        "city": "南通",
+        "area_name": "如皋",
+        "block": "如皋",
+        "community": "绿地·中山铂邸",
+        "title": "70年大产权,有房产证,可以过户,放心交易",
+        "total_price": 10.0,
+        "unit_price": 3063.0,
+        "area": 32.65,
+        "layout": "1室1厅",
+        "list_date": "2025-10-13",
+        "risk_score": 36,
+        "risk_flags": "农村偏远",
+        "exclude_reason": "农村/偏远",
+        "url": "https://nt.esf.fang.com/chushou/8_1015686214.htm"
+      },
+      {
+        "house_id": "nt:8_1003085274",
+        "city": "南通",
+        "area_name": "海安",
+        "block": "海安",
+        "community": "海园新村",
+        "title": "宜居佳房,适合居住,价格便宜哦",
+        "total_price": 11.0,
+        "unit_price": 1166.0,
+        "area": 94.35,
+        "layout": "3室1厅",
+        "list_date": "2025-04-26",
+        "risk_score": 0,
+        "risk_flags": "农村偏远|单价异常|远低于区县均价|疑似虚假",
+        "exclude_reason": "农村/偏远|疑似虚假/异常低价",
+        "url": "https://nt.esf.fang.com/chushou/8_1003085274.htm"
+      },
+      {
+        "house_id": "nt:8_1023400052",
+        "city": "南通",
+        "area_name": "启东",
+        "block": "启东",
+        "community": "文华家园",
+        "title": "文华家园户型格局好,采光好,业主诚心出售。",
+        "total_price": 11.8,
+        "unit_price": 1892.0,
+        "area": 62.38,
+        "layout": "2室1厅",
+        "list_date": "2026-07-13",
+        "risk_score": 28,
+        "risk_flags": "农村偏远",
+        "exclude_reason": "农村/偏远",
+        "url": "https://nt.esf.fang.com/chushou/8_1023400052.htm"
+      },
+      {
+        "house_id": "nt:8_1024313534",
+        "city": "南通",
+        "area_name": "如皋",
+        "block": "如皋",
+        "community": "绿地·中山铂邸",
+        "title": "绿地中山铂邸1室1厅南",
+        "total_price": 12.0,
+        "unit_price": 3608.0,
+        "area": 33.26,
+        "layout": "1室1厅",
+        "list_date": "2026-08-10",
+        "risk_score": 40,
+        "risk_flags": "农村偏远",
+        "exclude_reason": "农村/偏远",
+        "url": "https://nt.esf.fang.com/chushou/8_1024313534.htm"
+      },
+      {
+        "house_id": "huzhou:8_1017813795",
+        "city": "湖州",
+        "area_name": "长兴",
+        "block": "长兴",
+        "community": "长广金桂苑",
+        "title": "煤山金桂苑60平方二室毛坯房总价低12万看中可以谈",
+        "total_price": 12.0,
+        "unit_price": 1994.0,
+        "area": 60.21,
+        "layout": "2室2厅",
+        "list_date": "2025-12-21",
+        "risk_score": 3,
+        "risk_flags": "农村偏远|重复挂牌",
+        "exclude_reason": "农村/偏远|重复挂牌(多中介)",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1017813795.htm"
+      },
+      {
+        "house_id": "huzhou:8_1024744321",
+        "city": "湖州",
+        "area_name": "长兴",
+        "block": "长兴",
+        "community": "长广金桂苑",
+        "title": "长广金桂苑2室2厅南北",
+        "total_price": 12.5,
+        "unit_price": 2084.0,
+        "area": 60.0,
+        "layout": "2室2厅",
+        "list_date": "2026-10-01",
+        "risk_score": 28,
+        "risk_flags": "农村偏远",
+        "exclude_reason": "农村/偏远",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1024744321.htm"
+      },
+      {
+        "house_id": "huzhou:8_1024744322",
+        "city": "湖州",
+        "area_name": "长兴",
+        "block": "长兴",
+        "community": "长广金桂苑",
+        "title": "长广金桂苑2室2厅南北",
+        "total_price": 12.5,
+        "unit_price": 2084.0,
+        "area": 60.0,
+        "layout": "2室2厅",
+        "list_date": "2026-10-01",
+        "risk_score": 3,
+        "risk_flags": "农村偏远|重复挂牌",
+        "exclude_reason": "农村/偏远|重复挂牌(多中介)",
+        "url": "https://huzhou.esf.fang.com/chushou/8_1024744322.htm"
+      }
+    ]
+  },
+  "method": [
+    "价格：仅保留总价 ≤40 万且总价、面积可计算的房源",
+    "公寓/商住：房屋用途或标题/描述含公寓、SOHO、LOFT、写字楼、商铺、商住等",
+    "小产权：标题/描述/地址含小产权、农民房、自建房、宅基地、村委、集资房等",
+    "农村偏远：含村/乡/农场等关键词，或距所属城市中心 >45km、距上海 >165km",
+    "疑似虚假：单价与总价明显不符、单价 <1500 元/㎡、面积异常，或单价低于区县中位 45%、低于小区中位 52%",
+    "重复挂牌：同城市+同小区+同面积+同总价视为多中介重复挂牌，仅保留一条",
+    "挂牌超2年：视为可能已失效，默认不进入精选"
+  ]
+}

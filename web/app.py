@@ -22,7 +22,8 @@ area, orientation, floor_desc, total_floor, total_price, unit_price, build_year,
 elevator, elevator_ratio, purpose, heating, structure, mortgage, list_date, last_trade, authentic,
 lat, lon, dist_sh, dist_center, risk_score, risk_label, risk_flags, exclude_reason,
 rank_score, value_score, is_apartment, is_small_prop, is_rural, is_fake, is_duplicate,
-is_stale, is_incomplete, url, image, source, crawl_time
+is_stale, is_incomplete, age_years, loan_status, gjj_status, loan_note, loan_years,
+down_payment, can_loan, can_gjj, url, image, source, crawl_time
 """
 
 EXCLUDE_COLS = {
@@ -137,6 +138,16 @@ def build_filters():
     elif p.get("purpose") == "非住宅":
         where.append("IFNULL(purpose,'') NOT LIKE '%住宅%'")
 
+    loan = p.get("loan") or ""
+    if loan == "commercial":
+        where.append("IFNULL(can_loan,0)=1")
+    elif loan == "gjj":
+        where.append("IFNULL(gjj_status,'') IN ('可公积金','公积金待核')")
+    elif loan == "gjj_ok":
+        where.append("IFNULL(can_gjj,0)=1")
+    elif loan == "none":
+        where.append("IFNULL(loan_status,'')='不可贷款'")
+
     for key, col in EXCLUDE_COLS.items():
         if p.get("all") == "1":
             continue
@@ -219,9 +230,15 @@ def meta():
         "挂牌超2年": con.execute("SELECT COUNT(*) FROM listings WHERE total_price<=40 AND is_stale=1").fetchone()[0],
         "信息缺失": con.execute("SELECT COUNT(*) FROM listings WHERE total_price<=40 AND is_incomplete=1").fetchone()[0],
     }
+    loan_stats = {
+        "可商贷": con.execute(f"SELECT COUNT(*) FROM listings WHERE total_price>0 AND total_price<=40 AND {clean_cond} AND IFNULL(can_loan,0)=1").fetchone()[0],
+        "可公积金": con.execute(f"SELECT COUNT(*) FROM listings WHERE total_price>0 AND total_price<=40 AND {clean_cond} AND IFNULL(can_gjj,0)=1").fetchone()[0],
+        "公积金待核": con.execute(f"SELECT COUNT(*) FROM listings WHERE total_price>0 AND total_price<=40 AND {clean_cond} AND IFNULL(gjj_status,'')='公积金待核'").fetchone()[0],
+        "不可按揭": con.execute(f"SELECT COUNT(*) FROM listings WHERE total_price>0 AND total_price<=40 AND {clean_cond} AND IFNULL(loan_status,'')='不可贷款'").fetchone()[0],
+    }
     return jsonify({
         "total": total, "clean": clean, "crawl_time": last, "analysis_time": analyzed,
-        "excluded": excluded,
+        "excluded": excluded, "loans": loan_stats,
         "cities": [{"name": r["c"], "count": r["n"]} for r in cities],
         "districts": [{"name": r["d"], "count": r["n"]} for r in districts][:40],
         "decorations": [{"name": r["d"], "count": r["c"]} for r in decos][:8],

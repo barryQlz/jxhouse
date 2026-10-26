@@ -200,6 +200,15 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
     </div>
   </div>
   <div class="grp">
+    <div class="t">贷款</div>
+    <div class="opts" id="loanOpts">
+      <div class="opt" data-loan="commercial">可商贷</div>
+      <div class="opt" data-loan="gjj">可公积金（含待核）</div>
+      <div class="opt" data-loan="gjj_ok">房龄确认可公积金</div>
+      <div class="opt" data-loan="none">不可按揭</div>
+    </div>
+  </div>
+  <div class="grp">
     <div class="t">装修</div>
     <div class="opts" id="decoOpts"></div>
   </div>
@@ -233,6 +242,7 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
   <div class="mbody">
     <div class="desc" id="mPrice"></div>
     <div id="mRisk"></div>
+    <div id="mLoan"></div>
     <div class="grid" id="mGrid"></div>
     <div class="desc" id="mComm"></div>
   </div>
@@ -254,7 +264,7 @@ h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
 <script>
 const S = {
   q:"", city:[], pmin:"", pmax:"", amin:"", amax:"",
-  rooms:[], elevator:"", purpose:"", deco:[], sort:"recommend", page:0, size:30,
+  rooms:[], elevator:"", purpose:"", deco:[], loan:"", sort:"recommend", page:0, size:30,
   total:0, loading:false, done:false, onlyFav:false, mode:"clean", ex:{}
 };
 const EXKEYS = ["ex_apartment","ex_small","ex_rural","ex_fake","ex_dup","ex_stale","ex_incomplete"];
@@ -283,6 +293,16 @@ async function loadMeta(){
   const deco = $("decoOpts");
   deco.innerHTML = r.decorations.map(d=>`<div class="opt" data-deco="${esc(d.name)}">${esc(d.name)}</div>`).join("");
   deco.querySelectorAll(".opt").forEach(o=>o.onclick=()=>o.classList.toggle("on"));
+  const lo = r.loans||{};
+  const lmap = {
+    commercial: `可商贷 ${lo["可商贷"]??"-"}`,
+    gjj: `可公积金（含待核）${((lo["可公积金"]||0)+(lo["公积金待核"]||0))||"-"}`,
+    gjj_ok: `房龄确认可公积金 ${lo["可公积金"]??"-"}`,
+    none: `不可按揭 ${lo["不可按揭"]??"-"}`
+  };
+  $("loanOpts").querySelectorAll("[data-loan]").forEach(o=>{
+    if(lmap[o.dataset.loan]) o.textContent = lmap[o.dataset.loan];
+  });
   if(r.excluded) updateNotice();
 }
 
@@ -304,6 +324,7 @@ function qs(){
   if(S.rooms.length) p.set("rooms", S.rooms.join(","));
   if(S.elevator!=="") p.set("elevator", S.elevator);
   if(S.purpose) p.set("purpose", S.purpose);
+  if(S.loan) p.set("loan", S.loan);
   if(S.deco.length) p.set("decoration", S.deco.join(","));
   EXKEYS.forEach(k=>p.set(k, S.ex[k]));
   if(S.mode==="excluded") p.set("mode","excluded");
@@ -318,6 +339,16 @@ function riskTag(it){
   }
   const cls = it.risk_score<45 ? "r" : it.risk_score<70 ? "w" : "g";
   return `<span class="tag ${cls}">${esc(it.risk_label||"待评估")} ${it.risk_score??"--"}</span>`;
+}
+
+function loanTags(it){
+  const out = [];
+  if(it.loan_status === "不可贷款") out.push(`<span class="tag r">不可按揭</span>`);
+  else if(it.can_loan) out.push(`<span class="tag g">可商贷</span>`);
+  else if(it.loan_status === "需核实") out.push(`<span class="tag w">商贷待核</span>`);
+  if(it.gjj_status === "可公积金") out.push(`<span class="tag g">可公积金</span>`);
+  else if(it.gjj_status === "公积金待核") out.push(`<span class="tag w">公积金待核</span>`);
+  return out.join("");
 }
 
 function card(it){
@@ -338,6 +369,7 @@ function card(it){
     it.purpose ? `<span class="tag b">${esc(it.purpose)}</span>` : ""
   ].join("");
   const dist = it.dist_sh ? `<span>距上海 ${fmt(it.dist_sh,0)}km</span>` : "";
+  const dp = it.down_payment ? `<span>首付约 ${fmt(it.down_payment,1)}万</span>` : "";
   return `<div class="card" data-id="${esc(it.house_id)}">
     <div class="top">
       <div style="min-width:0">
@@ -349,8 +381,8 @@ function card(it){
         <div class="u">${it.unit_price?fmt(it.unit_price,0)+" 元/㎡":""}</div>
       </div>
     </div>
-    <div class="meta">${tags}${riskTag(it)}</div>
-    <div class="row2"><span>${dev}</span><span>${dist}${it.list_date?" · "+it.list_date:""}</span></div>
+    <div class="meta">${tags}${loanTags(it)}${riskTag(it)}</div>
+    <div class="row2"><span>${dev}</span><span>${dp}${dist}${it.list_date?" · "+it.list_date:""}</span></div>
     <button class="star ${fav}" data-fav="${esc(it.house_id)}">★</button>
   </div>`;
 }
@@ -415,6 +447,20 @@ async function openDetail(id){
       ${it.risk_flags?`<div style="margin-top:4px">风险标记：${esc(it.risk_flags)}</div>`:""}
       ${it.exclude_reason?`<div style="margin-top:4px">过滤原因：${esc(it.exclude_reason)}</div>`:""}
     </div>`;
+  if(it.loan_status || it.gjj_status){
+    const lcls = it.loan_status==="不可贷款" ? "bad" : it.can_loan ? "ok" : "mid";
+    const meta = [
+      it.down_payment ? `预估首付约 ${fmt(it.down_payment,1)} 万` : "",
+      it.loan_years ? `预计可贷 ${it.loan_years} 年` : "",
+      (it.age_years!==null && it.age_years!==undefined) ? `房龄约 ${fmt(it.age_years,0)} 年` : ""
+    ].filter(Boolean).join("　");
+    $("mLoan").innerHTML = `<div class="riskbox ${lcls}">
+      <b>商贷：${esc(it.loan_status||"—")}　公积金：${esc(it.gjj_status||"—")}</b>
+      ${meta?`<div style="margin-top:4px">${meta}</div>`:""}
+      ${it.loan_note?`<div style="margin-top:4px;font-size:12.5px;color:#5b6478">${esc(it.loan_note)}</div>`:""}
+      <div style="margin-top:4px;font-size:12px;color:#8a90a0">按产权性质/房龄/面积推算，仅供参考；最终以银行评估、公积金额度与产权核验为准</div>
+    </div>`;
+  } else $("mLoan").innerHTML = "";
   const rows = [
     ["户型", it.layout], ["建筑面积", it.area?fmt(it.area,2)+" ㎡":""],
     ["朝向", it.orientation], ["楼层", it.floor_desc?(it.floor_desc+(it.total_floor?"（共"+it.total_floor+"层）":"")):""],
@@ -455,6 +501,8 @@ async function openAnalysis(){
       <span class="track"><span class="fill" style="width:${Math.max(4,c.count/maxBand*100)}%"></span></span>
       <span class="val">${c.count}</span></div>`).join("");
   const commHtml = (a.communities||[]).slice(0,12).map(c=>`<li><span>${esc(c.key)}</span><b>${c.count}套 / ${c.median_price??"-"}万</b></li>`).join("");
+  const loanHtml = Object.entries(a.loans||{}).map(([k,v])=>`<li><span>${esc(k)}</span><b>${v} 套</b></li>`).join("");
+  const loanCityHtml = (a.loan_by_city||[]).map(c=>`<li><span>${esc(c.key)}</span><b>可商贷 ${c.loan} · 可公积金 ${c.gjj} · 待核 ${c.gjj_maybe||0}</b></li>`).join("");
   const sampleHtml = (a.samples&&a.samples.fake||[]).slice(0,6).map(s=>`<li><span>${esc(s.city)}·${esc(s.community)} ${s.total_price}万 ${s.area}㎡</span><b>${esc(s.risk_flags||"疑似")}</b></li>`).join("");
   $("aBody").innerHTML = `
     <div class="big">数据快照：${esc(a.generated_at)}　规则：总价 ≤40 万、住宅、非小产权、非农村、去重、过滤异常低价</div>
@@ -465,6 +513,8 @@ async function openAnalysis(){
     </div>
     <div class="an-sec"><h4>过滤原因（可重叠）</h4><ul class="exlist">${exHtml}</ul></div>
     <div class="an-sec"><h4>各城市精选套数</h4>${cityHtml}</div>
+    <div class="an-sec"><h4>贷款资格（精选房源）</h4><ul class="exlist">${loanHtml}</ul></div>
+    <div class="an-sec"><h4>各城市可贷情况</h4><ul class="exlist">${loanCityHtml}</ul></div>
     <div class="an-sec"><h4>总价分布</h4>${bandHtml}</div>
     <div class="an-sec"><h4>热门小区 TOP12</h4><ul class="exlist">${commHtml}</ul></div>
     ${sampleHtml?`<div class="an-sec"><h4>疑似虚假/异常房源示例</h4><ul class="exlist">${sampleHtml}</ul></div>`:""}
@@ -517,6 +567,11 @@ $("elevOpts").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
   else $("elevOpts").querySelectorAll("[data-purpose]").forEach(x=>x.classList.remove("on"));
   if(on) o.classList.add("on");
 });
+$("loanOpts").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
+  const on = !o.classList.contains("on");
+  $("loanOpts").querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));
+  if(on) o.classList.add("on");
+});
 document.querySelectorAll("[data-ex]").forEach(o=>o.onclick=()=>o.classList.toggle("on"));
 $("reset").onclick = ()=>{
   ["pmin","pmax","amin","amax"].forEach(k=>$(k).value="");
@@ -532,6 +587,8 @@ $("apply").onclick = ()=>{
   S.elevator = el.length? el[0] : "";
   const pu=[...$("elevOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.purpose).filter(Boolean);
   S.purpose = pu.length? pu[0] : "";
+  const ln=[...$("loanOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.loan).filter(Boolean);
+  S.loan = ln.length? ln[0] : "";
   S.deco=[...$("decoOpts").querySelectorAll(".opt.on")].map(o=>o.dataset.deco);
   EXKEYS.forEach(k=>S.ex[k]="1");
   document.querySelectorAll("[data-ex].on").forEach(o=>S.ex[o.dataset.ex]="1");

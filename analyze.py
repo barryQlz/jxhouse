@@ -45,6 +45,11 @@ COMMERCIAL_NAME_WORDS = ["公馆", "广场", "商城", "大厦", "世界城", "�
 STRONG_COMMERCIAL = ["食品城", "轻纺城", "商贸城", "服装城", "建材城", "五金城",
                      "小商品城", "汽配城", "农贸城", "家居城", "机电城", "国贸",
                      "创新中心"]
+LOAN_NO_WORDS = ["全款", "一次性付款", "不能贷款", "无法贷款", "不支持贷款", "须全款",
+                 "无产证", "无房产证", "没有产证", "合同房", "公证交易", "直接更名", "不能过户"]
+LOAN_MAYBE_WORDS = ["经济适用房", "安置房", "房改房", "公房", "动迁房", "限价房", "回迁房"]
+LOAN_YES_WORDS = ["可贷款", "可按揭", "支持贷款", "商品房", "70年产权", "满五", "满二",
+                  "产证", "红本", "住宅产权"]
 CITIES = ["上海", "昆山", "太仓", "苏州", "常熟", "南通", "启东", "海门", "嘉兴", "湖州"]
 CITY_ORDER = {c: i for i, c in enumerate(CITIES)}
 
@@ -102,12 +107,131 @@ def find_area(city, text):
     return ""
 
 
+def extract_build_year(r, cyears=None):
+    year = to_float(r.get("build_year"))
+    if year and 1900 < year <= 2030:
+        return int(year)
+    if cyears:
+        y = cyears.get((r["city"], norm(r.get("community"))))
+        if y:
+            return int(y)
+    m = re.search(r"(19[5-9]\d|20[0-2]\d)\s*年", r.get("title") or "")
+    if m:
+        y = int(m.group(1))
+        if 1950 <= y <= 2030:
+            return y
+    return None
+
+
+def community_years(rows):
+    bucket = {}
+    for r in rows:
+        y = to_float(r.get("build_year"))
+        if y and 1900 < y <= 2030 and r.get("community"):
+            bucket.setdefault((r["city"], norm(r.get("community"))), []).append(int(y))
+    return {k: int(median(v)) for k, v in bucket.items() if v}
+
+
+def assess_loan(r, apartment, small, today_year, cyears=None):
+    """按产权性质、房龄、面积推断商贷/公积金资格（仅供筛选参考，以银行评估为准）"""
+    text = " ".join([r.get("title") or "", r.get("description") or "",
+                     r.get("community") or "", r.get("address") or ""])
+    purpose = r.get("purpose") or ""
+    area = to_float(r.get("area"))
+    price = to_float(r.get("total_price"))
+    year = extract_build_year(r, cyears)
+    age = (today_year - year) if year else None
+    res = ("住宅" in purpose or "别墅" in purpose
+           or bool(contains_any(text, LOAN_YES_WORDS)))
+    if not res and not apartment and not small:
+        try:
+            res = int(float(r.get("rooms") or 0)) >= 1
+        except (TypeError, ValueError):
+            res = False
+    maybe_prop = bool(contains_any(text, LOAN_MAYBE_WORDS))
+
+    if small:
+        return {"loan_status": "不可贷款", "gjj_status": "不可公积金",
+                "loan_note": "小产权/无产权，银行不受理按揭与公积金",
+                "can_loan": 0, "can_gjj": 0, "age_years": age,
+                "loan_years": None, "down_payment": None}
+    if apartment:
+        return {"loan_status": "需核实", "gjj_status": "不可公积金",
+                "loan_note": "商办/公寓性质：最多只能商业贷款（首付约5成、最长10年），不可公积金",
+                "can_loan": 0, "can_gjj": 0, "age_years": age,
+                "loan_years": 10 if age is None or age <= 40 else None,
+                "down_payment": round(price * 0.5, 1) if price else None}
+    if contains_any(text, LOAN_NO_WORDS):
+        return {"loan_status": "不可贷款", "gjj_status": "不可公积金",
+                "loan_note": "挂牌写明需全款或无产证，无法办理按揭",
+                "can_loan": 0, "can_gjj": 0, "age_years": age,
+                "loan_years": None, "down_payment": None}
+
+    loan = "可贷款"
+    if age is not None:
+        if age > 40:
+            loan = "不可贷款"
+        elif age > 35:
+            loan = "需核实"
+    if area and area < 30 and loan == "可贷款":
+        loan = "需核实"
+    if maybe_prop and loan == "可贷款":
+        loan = "需核实"
+    if not res and loan == "可贷款":
+        loan = "需核实"
+
+    if age is None:
+        gjj = "公积金待核"
+    elif age <= 30:
+        gjj = "可公积金"
+    elif age <= 35:
+        gjj = "公积金待核"
+    else:
+        gjj = "不可公积金"
+    if area and area < 30 and gjj == "可公积金":
+        gjj = "公积金待核"
+    if maybe_prop and gjj == "可公积金":
+        gjj = "公积金待核"
+    if not res and gjj == "可公积金":
+        gjj = "公积金待核"
+
+    loan_years = None
+    if loan == "可贷款":
+        loan_years = max(1, min(30, 50 - age)) if age is not None else 20
+
+    bits = []
+    bits.append("住宅" if res else (purpose or "用途未标注"))
+    bits.append(f"房龄约{age}年" if age is not None else "房龄未标注")
+    if loan == "可贷款":
+        bits.append(f"商贷预计可贷约{loan_years}年")
+    elif loan == "需核实":
+        bits.append("商贷需银行评估确认")
+    else:
+        bits.append("商贷不可")
+    if gjj == "可公积金":
+        bits.append("公积金可申请（需连续缴存，额度按账户余额与当地上限）")
+    elif gjj == "公积金待核":
+        bits.append("公积金需核实房龄与缴存")
+    else:
+        bits.append("公积金不可")
+    if price:
+        bits.append(f"首套首付约{round(price * 0.2, 1)}万起")
+
+    return {"loan_status": loan, "gjj_status": gjj, "loan_note": "；".join(bits),
+            "can_loan": int(loan == "可贷款"), "can_gjj": int(gjj == "可公积金"),
+            "age_years": age, "loan_years": loan_years,
+            "down_payment": round(price * 0.2, 1) if price else None}
+
+
 def ensure_columns(con):
     cols = {r[1] for r in con.execute("PRAGMA table_info(listings)")}
     need = {
         "area_name": "TEXT", "district_med_unit": "REAL", "community_med_unit": "REAL",
         "city_med_unit": "REAL", "exclude_reason": "TEXT", "risk_label": "TEXT",
         "is_incomplete": "INTEGER DEFAULT 0", "dup_group": "TEXT", "value_score": "REAL",
+        "age_years": "REAL", "loan_status": "TEXT", "gjj_status": "TEXT", "loan_note": "TEXT",
+        "loan_years": "INTEGER", "down_payment": "REAL",
+        "can_loan": "INTEGER DEFAULT 0", "can_gjj": "INTEGER DEFAULT 0",
     }
     for c, t in need.items():
         if c not in cols:
@@ -143,6 +267,7 @@ def compute_medians(rows):
 
 def classify(rows, con):
     city_med, district_med, community_med, community_n = compute_medians(rows)
+    cyears = community_years(rows)
     today = datetime.now().date()
 
     for r in rows:
@@ -225,6 +350,9 @@ def classify(rows, con):
                 apartment = True
                 reasons.append("公寓/商住/非住宅")
                 flags.append("名称疑似商业公寓")
+
+        loan = assess_loan(r, apartment, small, today.year, cyears)
+        r.update(loan)
         if unit and area and price:
             calc = price * 10000 / area
             if abs(calc - unit) / max(unit, 1) > 0.25:
@@ -347,13 +475,18 @@ def classify(rows, con):
             "UPDATE listings SET area_name=?,unit_price=?,city_med_unit=?,district_med_unit=?,"
             "community_med_unit=?,is_apartment=?,is_small_prop=?,is_rural=?,is_fake=?,"
             "is_duplicate=?,is_stale=?,is_incomplete=?,risk_score=?,value_score=?,rank_score=?,"
-            "risk_flags=?,exclude_reason=?,risk_label=?,dup_group=?,analysis_time=? WHERE house_id=?",
+            "risk_flags=?,exclude_reason=?,risk_label=?,dup_group=?,analysis_time=?,"
+            "age_years=?,loan_status=?,gjj_status=?,loan_note=?,loan_years=?,down_payment=?,"
+            "can_loan=?,can_gjj=? WHERE house_id=?",
             (r["area_name"], r["unit_price"], r["city_med_unit"], r["district_med_unit"],
              r["community_med_unit"], r["is_apartment"], r["is_small_prop"], r["is_rural"],
              r["is_fake"], r["is_duplicate"], r["is_stale"], r["is_incomplete"],
              r["risk_score"], r["value_score"], r["rank_score"], r["risk_flags"],
              r["exclude_reason"], r["risk_label"], r.get("dup_group") or "",
-             datetime.now().strftime("%Y-%m-%d %H:%M:%S"), r["house_id"]))
+             datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+             r.get("age_years"), r.get("loan_status"), r.get("gjj_status"), r.get("loan_note"),
+             r.get("loan_years"), r.get("down_payment"),
+             r.get("can_loan") or 0, r.get("can_gjj") or 0, r["house_id"]))
     con.commit()
     return rows
 
@@ -396,6 +529,26 @@ def summarize(rows):
     rooms = agg(lambda r: (str(int(float(r["rooms"]))) + "室") if r.get("rooms") else "未知", clean)
     comms = agg(lambda r: f"{r['city']}·{r['community']}" if r.get("community") else None, clean)[:30]
 
+    loans = {
+        "可商贷": sum(1 for r in clean if r.get("can_loan")),
+        "可公积金": sum(1 for r in clean if r.get("can_gjj")),
+        "公积金待核": sum(1 for r in clean if r.get("gjj_status") == "公积金待核"),
+        "商贷需核实": sum(1 for r in clean if r.get("loan_status") == "需核实"),
+        "不可按揭": sum(1 for r in clean if r.get("loan_status") == "不可贷款"),
+    }
+    loan_by_city = []
+    for c in CITIES:
+        sub = [r for r in clean if r["city"] == c]
+        if not sub:
+            continue
+        loan_by_city.append({
+            "key": c, "count": len(sub),
+            "loan": sum(1 for r in sub if r.get("can_loan")),
+            "gjj": sum(1 for r in sub if r.get("can_gjj")),
+            "gjj_maybe": sum(1 for r in sub if r.get("gjj_status") == "公积金待核"),
+            "median_price": round(median([r["total_price"] for r in sub]), 1),
+        })
+
     def sample(items, n=8):
         return [{k: r.get(k) for k in
                  ("house_id", "city", "area_name", "block", "community", "title", "total_price",
@@ -414,6 +567,8 @@ def summarize(rows):
         "area_bands": area_bands,
         "rooms": rooms,
         "communities": comms,
+        "loans": loans,
+        "loan_by_city": loan_by_city,
         "samples": {
             "fake": sample([r for r in rows if r["is_fake"]]),
             "apartment": sample([r for r in rows if r["is_apartment"]]),
@@ -427,6 +582,8 @@ def summarize(rows):
             "疑似虚假：单价与总价明显不符、单价 <1500 元/㎡、面积异常，或单价低于区县中位 45%、低于小区中位 52%",
             "重复挂牌：同城市+同小区+同面积+同总价视为多中介重复挂牌，仅保留一条",
             "挂牌超2年：视为可能已失效，默认不进入精选",
+            "贷款标注：住宅 + 房龄≤30年 + 面积≥30㎡ 判为可商贷；房龄≤30年且产权清晰（非公寓/小产权/经济适用房等）判为可公积金；房龄未标注、35年以上、小面积或安置房/房改房等标为需核实；小产权、全款房源标为不可按揭",
+            "贷款金额按首套首付约2成估算，公积金还需连续缴存、账户余额与当地额度上限，最终以银行评估与产权核验为准",
         ],
     }
 
@@ -447,6 +604,9 @@ def export_excel(rows, summary):
                 "电梯": r.get("elevator"), "装修": r.get("decoration"), "房屋用途": r.get("purpose"),
                 "建成年代": r.get("build_year"), "挂牌时间": r.get("list_date"),
                 "距上海市中心(km)": r.get("dist_sh"), "距本市中心(km)": r.get("dist_center"),
+                "商贷": r.get("loan_status"), "公积金": r.get("gjj_status"),
+                "预估首付(万)": r.get("down_payment"), "预计可贷年限": r.get("loan_years"),
+                "房龄(年)": r.get("age_years"), "贷款说明": r.get("loan_note"),
                 "可信度": r.get("risk_score"), "评级": r.get("risk_label"),
                 "推荐分": r.get("rank_score"), "风险标记": r.get("risk_flags"),
                 "排除原因": r.get("exclude_reason"), "房源链接": r.get("url"),
@@ -473,6 +633,10 @@ def export_excel(rows, summary):
         pd.DataFrame(summary["communities"]).rename(columns={
             "key": "城市·小区", "count": "精选套数", "median_price": "中位总价(万)",
             "median_unit": "中位单价(元/㎡)"}).to_excel(w, sheet_name="小区统计", index=False)
+        pd.DataFrame(summary["loan_by_city"]).rename(columns={
+            "key": "城市", "count": "精选套数", "loan": "可商贷",
+            "gjj": "可公积金", "gjj_maybe": "公积金待核",
+            "median_price": "中位总价(万)"}).to_excel(w, sheet_name="贷款资格", index=False)
         pd.DataFrame({"过滤项": list(summary["excluded"].keys()),
                       "套数": list(summary["excluded"].values())}).to_excel(w, sheet_name="过滤统计", index=False)
         pd.DataFrame({"说明": summary["method"]}).to_excel(w, sheet_name="清洗规则", index=False)
@@ -502,6 +666,9 @@ def main():
     print(f"[analyze] 清洗后 {summary['clean_count']} 条，排除 {summary['total_in_budget']-summary['clean_count']} 条")
     for k, v in summary["excluded"].items():
         print(f"  - {k}: {v}")
+    lo = summary["loans"]
+    print(f"  [贷款] 可商贷 {lo['可商贷']}，可公积金 {lo['可公积金']}，"
+          f"公积金待核 {lo['公积金待核']}，商贷需核实 {lo['商贷需核实']}，不可按揭 {lo['不可按揭']}")
     for c in summary["cities"]:
         print(f"  {c['key']}: {c['count']} 套，中位总价 {c['median_price']} 万，中位单价 {c['median_unit']} 元/㎡")
     export_excel(rows, summary)
